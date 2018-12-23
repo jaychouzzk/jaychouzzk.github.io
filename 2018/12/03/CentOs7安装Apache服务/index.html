@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-tw">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Linux,Apache，CentOs,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Jaychouzzk's blogs" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="在Cent os 7下Apache安装 使用软件：Vmware 14，Termius，FileZilla Client 安装环境：CentOs Linux release 7.2.1511 安装Apache版本：httpd-2.4.37  源码安装步骤：将httpd-2.4.37.tar通过sftp上传到cent os的/root目录下  进入Termius中，通过SSH连接虚拟机 将这四个文件传">
+<meta name="keywords" content="Linux,Apache，CentOs">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在Cent os 7下Apache安装">
+<meta property="og:url" content="https://jaychouzzk.github.io/2018/12/03/CentOs7安装Apache服务/index.html">
+<meta property="og:site_name" content="Jaychouzzk&#39;s blogs">
+<meta property="og:description" content="在Cent os 7下Apache安装 使用软件：Vmware 14，Termius，FileZilla Client 安装环境：CentOs Linux release 7.2.1511 安装Apache版本：httpd-2.4.37  源码安装步骤：将httpd-2.4.37.tar通过sftp上传到cent os的/root目录下  进入Termius中，通过SSH连接虚拟机 将这四个文件传">
+<meta property="og:locale" content="zh-tw">
+<meta property="og:image" content="https://jaychouzzk.github.io/img/apache-1.png">
+<meta property="og:image" content="https://jaychouzzk.github.io/img/apache-2.png">
+<meta property="og:image" content="https://jaychouzzk.github.io/img/apache-3.png">
+<meta property="og:image" content="https://jaychouzzk.github.io/img/apache-4.png">
+<meta property="og:image" content="https://jaychouzzk.github.io/img/apache-5.png">
+<meta property="og:image" content="https://jaychouzzk.github.io/img/apache-6.png">
+<meta property="og:image" content="https://jaychouzzk.github.io/img/apache-7.png">
+<meta property="og:image" content="https://jaychouzzk.github.io/img/apache-8.png">
+<meta property="og:image" content="https://jaychouzzk.github.io/img/apache-9.png">
+<meta property="og:image" content="https://jaychouzzk.github.io/img/apache-10.png">
+<meta property="og:image" content="https://jaychouzzk.github.io/img/apache-11.png">
+<meta property="og:image" content="https://jaychouzzk.github.io/img/apache-12.png">
+<meta property="og:image" content="https://jaychouzzk.github.io/img/apache-13.png">
+<meta property="og:image" content="https://jaychouzzk.github.io/img/apache-14.png">
+<meta property="og:image" content="https://jaychouzzk.github.io/img/apache-15.png">
+<meta property="og:image" content="https://jaychouzzk.github.io/img/apache-16.png">
+<meta property="og:updated_time" content="2018-12-05T12:21:35.642Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="在Cent os 7下Apache安装">
+<meta name="twitter:description" content="在Cent os 7下Apache安装 使用软件：Vmware 14，Termius，FileZilla Client 安装环境：CentOs Linux release 7.2.1511 安装Apache版本：httpd-2.4.37  源码安装步骤：将httpd-2.4.37.tar通过sftp上传到cent os的/root目录下  进入Termius中，通过SSH连接虚拟机 将这四个文件传">
+<meta name="twitter:image" content="https://jaychouzzk.github.io/img/apache-1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://jaychouzzk.github.io/2018/12/03/CentOs7安装Apache服务/">
+
+
+
+
+
+  <title>在Cent os 7下Apache安装 | Jaychouzzk's blogs</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jaychouzzk's blogs</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            歸檔
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jaychouzzk.github.io/2018/12/03/CentOs7安装Apache服务/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jaychouzzk">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jaychouzzk's blogs">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">在Cent os 7下Apache安装</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">發表於</span>
+              
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2018-12-03T16:00:45+08:00">
+                2018-12-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="在Cent-os-7下Apache安装"><a href="#在Cent-os-7下Apache安装" class="headerlink" title="在Cent os 7下Apache安装"></a>在Cent os 7下Apache安装</h1><blockquote>
+<p>使用软件：Vmware 14，Termius，FileZilla Client</p>
+<p>安装环境：CentOs Linux release 7.2.1511</p>
+<p>安装Apache版本：httpd-2.4.37</p>
+</blockquote>
+<h2 id="源码安装步骤："><a href="#源码安装步骤：" class="headerlink" title="源码安装步骤："></a>源码安装步骤：</h2><p><strong>将httpd-2.4.37.tar通过sftp上传到cent os的/root目录下</strong></p>
+<p><img src="/img/apache-1.png" alt=""></p>
+<p><strong>进入Termius中，通过SSH连接虚拟机</strong></p>
+<h2 id=""><a href="#" class="headerlink" title=""></a><img src="/img/apache-2.png" alt=""></h2><p><strong>将这四个文件传到虚拟机的/root目录下</strong></p>
+<p><img src="/img/apache-3.png" alt=""></p>
+<p><strong>先将gcc环境安装好</strong></p>
+<pre><code>yum install gcc
+</code></pre><p><img src="/img/apache-4.png" alt=""></p>
+<p><strong>进入命令行模式，解压这四个文件,解压到默认目录下</strong></p>
+<pre><code>tar zxvf apr-1.6.5.tar.gz
+tar zxvf apr-util-1.6.1.tar.gz
+tar zxvf pcre-8.42.tar.gz
+tar zxvf pcre-8.42.tar.gz
+</code></pre><p><img src="/img/apache-5.png" alt=""></p>
+<hr>
+<p><strong>1.<br>先安装apr-1.6.5</strong></p>
+<pre><code>cd apr-1.6.5/
+./configure --prefix=/usr/local/apr/
+make &amp;&amp; make install
+</code></pre><blockquote>
+<p>如果遇到这个错误，请看下面错误解决<br><img src="/img/apache-6.png" alt=""></p>
+</blockquote>
+<hr>
+<p><strong>2.<br>安装apr-util-1.6.1</strong></p>
+<pre><code>cd apr-util-1.6.1/
+./configure --prefix=/usr/local/apr-util/ --with-apr=/usr/local/apr/
+make &amp;&amp; make install
+</code></pre><blockquote>
+<p>如果遇到了以下错误，请看下面错误解决<br><img src="/img/apache-7.png" alt=""></p>
+</blockquote>
+<hr>
+<p><strong>3.<br>安装pcre-8.42</strong></p>
+<pre><code>cd pcre-8.42
+./configure
+make &amp;&amp; make install
+</code></pre><blockquote>
+<p>如果出现以下错误，请看错误解决<br><img src="/img/apache-8.png" alt=""></p>
+</blockquote>
+<hr>
+<p><strong>4.<br>安装httpd-2.4.37</strong></p>
+<pre><code>cd httpd-2.4.37
+./configure --prefix=/usr/local/apache2
+make &amp;&amp; make install
+</code></pre><blockquote>
+<p>如果遇到以下错误，请看错误解决</p>
+</blockquote>
+<h2 id="-1"><a href="#-1" class="headerlink" title=""></a><img src="/img/apache-9.png" alt=""></h2><p>安装完成</p>
+<p>启动命令：</p>
+<pre><code>/usr/local/apache2/bin/apachectl start
+</code></pre><hr>
+<p><img src="/img/apache-10.png" alt=""><br>缺少gcc的组件，执行命令</p>
+<pre><code>yum -y install gcc gcc-c++ pcre-devel 
+</code></pre><p>即可成功<br>然后进入</p>
+<pre><code>/usr/local/apache2/bin/apachectl start
+</code></pre><p><strong>即可运行apache服务<br>如果出现</strong><br><img src="/img/apache-11.png" alt=""></p>
+<ul>
+<li>服务也是开启的，只是一个告警，提示没有设置servername</li>
+</ul>
+<p>解决办法：可以在配置文件中配置 </p>
+<pre><code>/usr/local/apache2/conf/httpd.conf
+</code></pre><p><img src="/img/apache-12.png" alt=""></p>
+<p><img src="/img/apache-13.png" alt=""></p>
+<p>成功运行</p>
+<h2 id="使用命令行安装Apache"><a href="#使用命令行安装Apache" class="headerlink" title="使用命令行安装Apache"></a>使用命令行安装Apache</h2><pre><code>yum install httpd
+
+systemctl start httpd
+
+systemctl enable httpd
+
+firewall -cmd --add-service=http --permanent
+
+firewall-cmd --reload
+
+vim /var/www/html/index.html
+
+//写入hello word
+</code></pre><p><strong>关闭防火墙</strong></p>
+<pre><code>systemctl stop firewalld
+service iptables stop
+</code></pre><p><img src="/img/apache-14.png" alt=""></p>
+<p>在物理机中访问</p>
+<p><img src="/img/apache-15.png" alt=""></p>
+<p>成功配置完毕<br>附加一些配置命令：<br>    rm -f /etc/httpd/conf.d/welcome.conf   </p>
+<pre><code>#删除默认欢迎页面
+
+vi /etc/httpd/conf/httpd.conf       #自己配置环境
+# line 86: 改变管理员的邮箱地址
+ServerAdmin root@linuxprobe.org
+# line 95: 改变域名信息
+ServerName www.linuxprobe.org:80
+# line 151: none变成All
+AllowOverride All
+# line 164: 添加只能使用目录名称访问的文件名
+DirectoryIndex index.html index.cgi index.php
+# add follows to the end
+# server&apos;s response header（安全性）
+ServerTokens Prod
+# keepalive is ON
+KeepAlive On
+</code></pre><hr>
+<h1 id="错误解决"><a href="#错误解决" class="headerlink" title="错误解决"></a>错误解决</h1><hr>
+<h2 id="安装apr-1-6-5出现的错误"><a href="#安装apr-1-6-5出现的错误" class="headerlink" title="安装apr-1.6.5出现的错误"></a>安装apr-1.6.5出现的错误</h2><p><strong>错误</strong>：</p>
+<pre><code>cannot remove ‘libtoolT’：no such file or directory
+</code></pre><p><strong>解决</strong>：</p>
+<pre><code>vim /root/apr-1.6.5/cofigure
+    将RM=&quot;$RM&quot;    改为RM=&quot;$RM -f&quot;
+    RM=&quot;rm&quot;        改为RM=&quot;$rm -f&quot;
+</code></pre><h2 id="-2"><a href="#-2" class="headerlink" title=""></a><img src="/img/apache-16.png" alt=""></h2><h2 id="安装apr-util-1-6-1出现的错误"><a href="#安装apr-util-1-6-1出现的错误" class="headerlink" title="安装apr-util.1.6.1出现的错误"></a>安装apr-util.1.6.1出现的错误</h2><p><strong>错误</strong>1:</p>
+<pre><code>configure: error: APR could not be located. Please use the --with-apr option.
+</code></pre><p><strong>解决</strong>：</p>
+<pre><code>./configure --with-apr
+或：./configure --prefix=/usr/local/apr-util/ --with-apr=/usr/local/apr/
+</code></pre><hr>
+<p><strong>错误</strong>2：</p>
+<pre><code>checking for APR... configure: error: the 
+    --with-apr parameter is incorrect. 
+It must specify an install prefix, a build directory, or an apr-config file
+</code></pre><p><strong>解决</strong>：</p>
+<pre><code>./configure --prefix=/usr/local/apr --with-apr=/usr/local/apr/
+</code></pre><hr>
+<p><strong>错误</strong>3： </p>
+<pre><code>make[1]: 进入目录“/usr/local/apr-util-1.6.1”
+/bin/sh /usr/local/apr/build-1/libtool --silent --mode=compile gcc -g -O2 -pthread   -DHAVE_CONFIG_H -D_REENTRANT -D_GNU_SOURCE   -I/usr/local/apr-util-1.6.1/include -I/usr/local/apr-util-1.6.1/include/private  -I/usr/local/apr/include/apr-1    -o xml/apr_xml.lo -c xml/apr_xml.c &amp;&amp; touch xml/apr_xml.lo
+xml/apr_xml.c:35:19: 致命错误：expat.h：没有那个文件或目录
+ #include &lt;expat.h&gt;
+编译中断。
+make[1]: *** [xml/apr_xml.lo] 错误 1
+make[1]: 离开目录“/usr/local/apr-util-1.6.1”
+make: *** [all-recursive] 错误 1
+</code></pre><p><strong>解决方法</strong>：</p>
+<pre><code>yum install expat-devel
+</code></pre><hr>
+<h2 id="安装proc错误出现的错误"><a href="#安装proc错误出现的错误" class="headerlink" title="安装proc错误出现的错误"></a>安装proc错误出现的错误</h2><p><strong>错误</strong>：</p>
+<pre><code>configure: error: Invalid C++ compiler or C++ compiler flags
+</code></pre><p><strong>解决方法</strong>：</p>
+<pre><code>yum -y install gcc gcc-c++ pcre-devel 
+</code></pre><hr>
+<h2 id="安装httpd出现的错误"><a href="#安装httpd出现的错误" class="headerlink" title="安装httpd出现的错误"></a>安装httpd出现的错误</h2><p><strong>错误</strong>：</p>
+<pre><code>checking for APR-util... no
+configure: error: APR-util not found.  Please read the documentation.
+</code></pre><p><strong>解决方法</strong>：</p>
+<pre><code>./configure --prefix=/usr/local/apache2 --with-apr-util=/usr/local/apr-util/
+</code></pre>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Linux/" rel="tag"># Linux</a>
+          
+            <a href="/tags/Apache，CentOs/" rel="tag"># Apache，CentOs</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/12/16/php简陋实现wordpress安装流程/" rel="prev" title="php简陋实现wordpress安装流程">
+                php简陋实现wordpress安装流程 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Jaychouzzk</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">文章</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">標籤</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#在Cent-os-7下Apache安装"><span class="nav-number">1.</span> <span class="nav-text">在Cent os 7下Apache安装</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#源码安装步骤："><span class="nav-number">1.1.</span> <span class="nav-text">源码安装步骤：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#"><span class="nav-number">1.2.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#-1"><span class="nav-number">1.3.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用命令行安装Apache"><span class="nav-number">1.4.</span> <span class="nav-text">使用命令行安装Apache</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#错误解决"><span class="nav-number">2.</span> <span class="nav-text">错误解决</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装apr-1-6-5出现的错误"><span class="nav-number">2.1.</span> <span class="nav-text">安装apr-1.6.5出现的错误</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#-2"><span class="nav-number">2.2.</span> <span class="nav-text"></span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装apr-util-1-6-1出现的错误"><span class="nav-number">2.3.</span> <span class="nav-text">安装apr-util.1.6.1出现的错误</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装proc错误出现的错误"><span class="nav-number">2.4.</span> <span class="nav-text">安装proc错误出现的错误</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装httpd出现的错误"><span class="nav-number">2.5.</span> <span class="nav-text">安装httpd出现的错误</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jaychouzzk</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 強力驅動</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主題 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
