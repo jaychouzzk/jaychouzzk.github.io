@@ -232,6 +232,136 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jaychouzzk.github.io/2019/03/21/Vultr增加虚拟内存/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jaychouzzk">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jaychouzzk's blogs">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/03/21/Vultr增加虚拟内存/" itemprop="url">Linux增加虚拟内存</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">發表於</span>
+              
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2019-03-21T15:09:02+08:00">
+                2019-03-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1>Linux增加虚拟内存</h1>
+
+<p>有的KVM的VPS初始给的SWAP太小了，比如DigitalOcean就没有分配SWAP，Bandwagon给的才132MB的SWAP，所以需要自行增加SWAP文件。</p>
+<p><code>vim swap.sh</code></p>
+<p>按i键，开启插入模式，插入以下文字。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>!/bin/bash</span><br><span class="line">echo -e "\033[33m Your current swap is \033[0m"</span><br><span class="line">free -h</span><br><span class="line">mkdir /SwapDir</span><br><span class="line">cd /SwapDir</span><br><span class="line">dd if=/dev/zero of=/SwapDir/swap bs=1M count=512 #这里增加的空间是512MB  </span><br><span class="line">chmod 0600 swap  </span><br><span class="line">mkswap /SwapDir/swap #把这个分区变成swap分区 </span><br><span class="line">swapon /SwapDir/swap #把刚建的swap分区设成为有效状态  </span><br><span class="line">myFile=/etc/fstab.bak   </span><br><span class="line">cd /etc  </span><br><span class="line">if [ -f "$myFile" ];then</span><br><span class="line">rm -rf fstab.bak #删除之前的备份 </span><br><span class="line">else  </span><br><span class="line">cp /etc/fstab /etc/fstab.bak #备份fstab  </span><br><span class="line">fi  </span><br><span class="line">echo "/SwapDir/swap swap swap defaults 0 0"&gt;&gt;/etc/fstab #增加新的swap开机自动启动  </span><br><span class="line">echo -e "\033[31m Done\!Congratulation\！System swap add successful\！ \033[0m"  </span><br><span class="line">echo -e "\033[33m Your system swap is \: \033[0m"</span><br><span class="line">free -h</span><br></pre></td></tr></table></figure>
+<p>Esc，再输入“:wq”，保存退出。</p>
+<p>运行这个脚本，</p>
+<p><code>sh swap.sh</code></p>
+<p>即可增加一个512MB的SWAP文件。文件大小可以自行在脚本中修改，不过一般512MB也足够了。</p>
+<p>转自:<a href="https://www.ljchen.com/archives/1345" target="_blank" rel="noopener">一键增加VPS虚拟内存SWAP</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://jaychouzzk.github.io/2019/02/24/weblogic SSRF漏洞复现/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -3259,7 +3389,7 @@ configure: error: APR-util not found.  Please read the documentation.
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">文章</span>
                 </a>
               </div>
@@ -3272,7 +3402,7 @@ configure: error: APR-util not found.  Please read the documentation.
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">標籤</span>
                 
               </div>
