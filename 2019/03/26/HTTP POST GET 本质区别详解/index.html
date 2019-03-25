@@ -81,18 +81,18 @@
 
 
 
-<meta name="description" content="参考链接：HTTP协议中GET和POST方法的区别HTTP POST GET 本质区别详解  #一.原理区别 一般再浏览器中输入网址访问资源都是通过GET方式;在FORM表单中提交数据，可以通过METHOD指定方式进行提交，默认为GET请求提交，还可以设置为POST请求进行提交 HTTP定义了与服务器交互的不同方法，最基本的方法有四种:GET,POST,PUT,DELETE 分别对应着查，改，增">
+<meta name="description" content="参考链接：HTTP协议中GET和POST方法的区别HTTP POST GET 本质区别详解  一.原理区别  一般再浏览器中输入网址访问资源都是通过GET方式;在FORM表单中提交数据，可以通过METHOD指定方式进行提交，默认为GET请求提交，还可以设置为POST请求进行提交 HTTP定义了与服务器交互的不同方法，最基本的方法有四种:GET,POST,PUT,DELETE 分别对应着查，改，增">
 <meta name="keywords" content="HTTP">
 <meta property="og:type" content="article">
 <meta property="og:title" content="HTTP POST GET 本质区别详解">
 <meta property="og:url" content="https://jaychouzzk.github.io/2019/03/26/HTTP POST GET 本质区别详解/index.html">
 <meta property="og:site_name" content="Jaychouzzk&#39;s blogs">
-<meta property="og:description" content="参考链接：HTTP协议中GET和POST方法的区别HTTP POST GET 本质区别详解  #一.原理区别 一般再浏览器中输入网址访问资源都是通过GET方式;在FORM表单中提交数据，可以通过METHOD指定方式进行提交，默认为GET请求提交，还可以设置为POST请求进行提交 HTTP定义了与服务器交互的不同方法，最基本的方法有四种:GET,POST,PUT,DELETE 分别对应着查，改，增">
+<meta property="og:description" content="参考链接：HTTP协议中GET和POST方法的区别HTTP POST GET 本质区别详解  一.原理区别  一般再浏览器中输入网址访问资源都是通过GET方式;在FORM表单中提交数据，可以通过METHOD指定方式进行提交，默认为GET请求提交，还可以设置为POST请求进行提交 HTTP定义了与服务器交互的不同方法，最基本的方法有四种:GET,POST,PUT,DELETE 分别对应着查，改，增">
 <meta property="og:locale" content="zh-tw">
-<meta property="og:updated_time" content="2019-03-25T20:55:05.705Z">
+<meta property="og:updated_time" content="2019-03-25T20:59:39.610Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HTTP POST GET 本质区别详解">
-<meta name="twitter:description" content="参考链接：HTTP协议中GET和POST方法的区别HTTP POST GET 本质区别详解  #一.原理区别 一般再浏览器中输入网址访问资源都是通过GET方式;在FORM表单中提交数据，可以通过METHOD指定方式进行提交，默认为GET请求提交，还可以设置为POST请求进行提交 HTTP定义了与服务器交互的不同方法，最基本的方法有四种:GET,POST,PUT,DELETE 分别对应着查，改，增">
+<meta name="twitter:description" content="参考链接：HTTP协议中GET和POST方法的区别HTTP POST GET 本质区别详解  一.原理区别  一般再浏览器中输入网址访问资源都是通过GET方式;在FORM表单中提交数据，可以通过METHOD指定方式进行提交，默认为GET请求提交，还可以设置为POST请求进行提交 HTTP定义了与服务器交互的不同方法，最基本的方法有四种:GET,POST,PUT,DELETE 分别对应着查，改，增">
 
 
 
@@ -305,7 +305,8 @@
         <blockquote>
 <p>参考链接：<br><a href="https://sunshinevvv.coding.me/blog/2017/02/09/HttpGETv.s.POST/" target="_blank" rel="noopener">HTTP协议中GET和POST方法的区别</a><br><a href="https://blog.csdn.net/gideal_wang/article/details/4316691" target="_blank" rel="noopener">HTTP POST GET 本质区别详解</a></p>
 </blockquote>
-<p>#一.原理区别</p>
+<h1>一.原理区别</h1>
+
 <p>一般再浏览器中输入网址访问资源都是通过<code>GET</code>方式;在<code>FORM</code>表单中提交数据，可以通过<code>METHOD</code>指定方式进行提交，默认为<code>GET</code>请求提交，还可以设置为<code>POST</code>请求进行提交</p>
 <p>HTTP定义了与服务器交互的不同方法，最基本的方法有四种:<code>GET,POST,PUT,DELETE</code></p>
 <p>分别对应着<code>查，改，增，删</code>,四个操作，一般<code>GET</code>用于获取查询资源信息，<code>POST</code>一般用于更新资源信息</p>
@@ -319,7 +320,8 @@
 <p>3.另外一个是，早期的但是Web MVC框架设计者们并没有有意识地将URL当作抽象的资源来看待和设计 。还有一个较为严重的问题是传统的Web MVC框架基本上都只支持GET和POST两种HTTP方法，而不支持PUT和DELETE方法。</p>
 <p> 　　* 简单解释一下MVC：MVC本来是存在于Desktop程序中的，M是指数据模型，V是指用户界面，C则是控制器。使用MVC的目的是将M和V的实现代码分离，从而使同一个程序可以使用不同的表现形式。</p>
 <p>　　以上3点典型地描述了老一套的风格（没有严格遵守HTTP规范），随着架构的发展，现在出现REST(Representational State Transfer)，一套支持HTTP规范的新风格，这里不多说了，可以参考《RESTful Web Services》。</p>
-<p>#二、表现形式的区别</p>
+<h1>二、表现形式的区别</h1>
+
 <p>HTTP请求的格式如下：</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;request line&gt;</span><br><span class="line">&lt;headers&gt;</span><br><span class="line">&lt;blank line&gt;</span><br><span class="line">&lt;request-body&gt;</span><br></pre></td></tr></table></figure>
 <p>在HTTP请求中，第一行必须为<code>&lt;request line&gt;</code>,用来说明请求类型、访问的资源、以及使用的HTTP版本，紧接着是HTTP请求头部,用来说明服务器要使用的附加信息。之后是一个空行，在此之后可以添加任意的其他数据</p>
@@ -328,15 +330,18 @@
 <p><code>POST</code>请求</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">POST</span> <span class="string">/</span> HTTP/1.1</span><br><span class="line"><span class="attribute">Host</span>: xxx.xxx.com</span><br><span class="line"><span class="attribute">User-Agent</span>: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.7.6)</span><br><span class="line">Gecko/20050225 Firefox/1.0.1</span><br><span class="line"><span class="attribute">Content-Type</span>: application/x-www-form-urlencoded</span><br><span class="line"><span class="attribute">Content-Length</span>: 40</span><br><span class="line"><span class="attribute">Connection</span>: Keep-Alive</span><br><span class="line"></span><br><span class="line">xxx=xxx&amp;xxx=xxx</span><br></pre></td></tr></table></figure>
 <p>显而易见，<code>GET</code>请求的数据是包含在URL中的，而<code>POST</code>请求时包含在HTTP Body中的</p>
-<p>#三、对长度的限制</p>
+<h1>三、对长度的限制</h1>
+
 <p>对于传输数据的大小限制<br>    1.首先，HTTP协议中并没有对这两种的传输数据大小做限制，也没有对URL的长度做限制，只有大多数浏览器或者服务器对URL的长度进行了长度限制，如IE的长度限制为2048个字符,火狐浏览器则为10w个字符。<br>    2.理论上，<code>POST</code>请求不是通过URL传值，是不受数据大小限制的，但是，各个WEB服务器会规定对<code>POST</code>请求传输的数据进行不同的大小限制</p>
-<p>#四、安全性</p>
+<h1>四、安全性</h1>
+
 <p>在HTTP协议中，<code>GET</code>请求为什么会比<code>POST</code>请求安全呢？</p>
 <p>1.这里的安全是指，一个方法的语义在本质上是只读的，不会引起服务端任何的状态变化，就是安全的无害的，而<code>POST</code>请求会去更新修改服务器端的资源，所以<code>GET</code>请求会比<code>POST</code>请求要安全。由此可得，HEAD, OPTIONS 和 TRACE 这几个方法也是安全的。</p>
 <p>2.幂等,<code>GET</code>请求时幂等的，多次进行该请求和仅执行一次的结果完全相同，便是安全的，但是HTTP规范中是安全的，服务端是否能过做到幂等，这个是无法确保的。</p>
 <p>仅仅是在HTTP协议中来看<code>GET</code>请求确实比<code>POST</code>请求要更加安全</p>
 <p>如果是在实际应用来看的话，可见与不可见，<code>POST</code>请求还是比<code>GET</code>请求来的安全些，如：密码的传输、敏感信息的传输等等</p>
-<p>#五、实际应用的区别</p>
+<h1>五、实际应用的区别</h1>
+
 <table>
 <thead>
 <tr>
@@ -482,8 +487,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            本站概覽
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
             
@@ -541,6 +555,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#undefined"><span class="nav-number">1.</span> <span class="nav-text">一.原理区别</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#undefined"><span class="nav-number">2.</span> <span class="nav-text">二、表现形式的区别</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#undefined"><span class="nav-number">3.</span> <span class="nav-text">三、对长度的限制</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#undefined"><span class="nav-number">4.</span> <span class="nav-text">四、安全性</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#undefined"><span class="nav-number">5.</span> <span class="nav-text">五、实际应用的区别</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
