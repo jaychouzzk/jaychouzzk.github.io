@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://jaychouzzk.github.io/"/>
-  <updated>2019-03-23T19:35:38.077Z</updated>
+  <updated>2019-03-25T20:55:05.705Z</updated>
   <id>https://jaychouzzk.github.io/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>HTTP POST GET 本质区别详解</title>
+    <link href="https://jaychouzzk.github.io/2019/03/26/HTTP%20POST%20GET%20%E6%9C%AC%E8%B4%A8%E5%8C%BA%E5%88%AB%E8%AF%A6%E8%A7%A3/"/>
+    <id>https://jaychouzzk.github.io/2019/03/26/HTTP POST GET 本质区别详解/</id>
+    <published>2019-03-25T19:38:28.388Z</published>
+    <updated>2019-03-25T20:55:05.705Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><p>参考链接：<br><a href="https://sunshinevvv.coding.me/blog/2017/02/09/HttpGETv.s.POST/" target="_blank" rel="noopener">HTTP协议中GET和POST方法的区别</a><br><a href="https://blog.csdn.net/gideal_wang/article/details/4316691" target="_blank" rel="noopener">HTTP POST GET 本质区别详解</a></p></blockquote><p>#一.原理区别</p><p>一般再浏览器中输入网址访问资源都是通过<code>GET</code>方式;在<code>FORM</code>表单中提交数据，可以通过<code>METHOD</code>指定方式进行提交，默认为<code>GET</code>请求提交，还可以设置为<code>POST</code>请求进行提交</p><p>HTTP定义了与服务器交互的不同方法，最基本的方法有四种:<code>GET,POST,PUT,DELETE</code></p><p>分别对应着<code>查，改，增，删</code>,四个操作，一般<code>GET</code>用于获取查询资源信息，<code>POST</code>一般用于更新资源信息</p><p>根据HTTP规范，<code>GET用于信息的获取，而且应该是安全的、幂等的</code></p><p>1.所谓的安全，是意味着<code>GET</code>操作是用于获取信息而非修改信息。<code>GET</code>请求一般不应该产生副作用，仅仅是资源的获取，不会修改，增加数据，不会影响资源的状态<br>2.幂等：    是一个数学或计算机学概念，常用于抽象代数。<br>        对于单目运算，如果一个运算对于范围内所有的一个数进行多次该运算，返回的结果和进行一次该运算的结果一致，那么该运算被称之为幂等，比如绝对值运算就是一个幂等运算<br>        对于双目运算，则要求当参与运算的两个值是等值的情况下，满足结果与参与运算的两个值相等，则该运算称之为运算幂等，如两个相等的数取最大值，该运算则为幂等运算</p><pre><code>但在实际应用中，以上2条规定并没有这么严格。引用别人文章的例子：比如，新闻站点的头版不断更新。虽然第二次请求会返回不同的一批新闻，该操 作仍然被认为是安全的和幂等的，因为它总是返回当前的新闻。从根本上说，如果目标是当用户打开一个链接时，他可以确信从自身的角度来看没有改变资源即可。</code></pre><p>根据HTTP规范，<code>POST</code>表示可能修改服务器上的资源请求。继续引用上面的例子：还是新闻以网站为例，读者对新闻发表自己的评论应该通过POST实现，因为在评论提交后站点的资源已经不同了，或者说资源被修改了。</p><p><strong>问题的由来：</strong></p><p>1.很多人贪方便，更新资源时用了GET，因为用POST必须要到FORM（表单），这样会麻烦一点。</p><p>2.对资源的增，删，改，查操作，其实都可以通过GET/POST完成，不需要用到PUT和DELETE。</p><p>3.另外一个是，早期的但是Web MVC框架设计者们并没有有意识地将URL当作抽象的资源来看待和设计 。还有一个较为严重的问题是传统的Web MVC框架基本上都只支持GET和POST两种HTTP方法，而不支持PUT和DELETE方法。</p><p> 　　* 简单解释一下MVC：MVC本来是存在于Desktop程序中的，M是指数据模型，V是指用户界面，C则是控制器。使用MVC的目的是将M和V的实现代码分离，从而使同一个程序可以使用不同的表现形式。</p><p>　　以上3点典型地描述了老一套的风格（没有严格遵守HTTP规范），随着架构的发展，现在出现REST(Representational State Transfer)，一套支持HTTP规范的新风格，这里不多说了，可以参考《RESTful Web Services》。</p><p>#二、表现形式的区别</p><p>HTTP请求的格式如下：</p><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;request line&gt;</span><br><span class="line">&lt;headers&gt;</span><br><span class="line">&lt;blank line&gt;</span><br><span class="line">&lt;request-body&gt;</span><br></pre></td></tr></table></figure><p>在HTTP请求中，第一行必须为<code>&lt;request line&gt;</code>,用来说明请求类型、访问的资源、以及使用的HTTP版本，紧接着是HTTP请求头部,用来说明服务器要使用的附加信息。之后是一个空行，在此之后可以添加任意的其他数据</p><p><code>GET</code>请求</p><figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">GET /xxx/?xxx=xxx&amp;xxx=xxx HTTP/1.1</span><br><span class="line"><span class="attribute">Host</span>: xxx.xxx.com</span><br><span class="line"><span class="attribute">User-Agent</span>: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.7.6)</span><br><span class="line">Gecko/20050225 Firefox/1.0.1</span><br><span class="line"><span class="attribute">Connection</span>: Keep-Alive</span><br></pre></td></tr></table></figure><p><code>POST</code>请求</p><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">POST</span> <span class="string">/</span> HTTP/1.1</span><br><span class="line"><span class="attribute">Host</span>: xxx.xxx.com</span><br><span class="line"><span class="attribute">User-Agent</span>: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.7.6)</span><br><span class="line">Gecko/20050225 Firefox/1.0.1</span><br><span class="line"><span class="attribute">Content-Type</span>: application/x-www-form-urlencoded</span><br><span class="line"><span class="attribute">Content-Length</span>: 40</span><br><span class="line"><span class="attribute">Connection</span>: Keep-Alive</span><br><span class="line"></span><br><span class="line">xxx=xxx&amp;xxx=xxx</span><br></pre></td></tr></table></figure><p>显而易见，<code>GET</code>请求的数据是包含在URL中的，而<code>POST</code>请求时包含在HTTP Body中的</p><p>#三、对长度的限制</p><p>对于传输数据的大小限制<br>    1.首先，HTTP协议中并没有对这两种的传输数据大小做限制，也没有对URL的长度做限制，只有大多数浏览器或者服务器对URL的长度进行了长度限制，如IE的长度限制为2048个字符,火狐浏览器则为10w个字符。<br>    2.理论上，<code>POST</code>请求不是通过URL传值，是不受数据大小限制的，但是，各个WEB服务器会规定对<code>POST</code>请求传输的数据进行不同的大小限制</p><p>#四、安全性</p><p>在HTTP协议中，<code>GET</code>请求为什么会比<code>POST</code>请求安全呢？</p><p>1.这里的安全是指，一个方法的语义在本质上是只读的，不会引起服务端任何的状态变化，就是安全的无害的，而<code>POST</code>请求会去更新修改服务器端的资源，所以<code>GET</code>请求会比<code>POST</code>请求要安全。由此可得，HEAD, OPTIONS 和 TRACE 这几个方法也是安全的。</p><p>2.幂等,<code>GET</code>请求时幂等的，多次进行该请求和仅执行一次的结果完全相同，便是安全的，但是HTTP规范中是安全的，服务端是否能过做到幂等，这个是无法确保的。</p><p>仅仅是在HTTP协议中来看<code>GET</code>请求确实比<code>POST</code>请求要更加安全</p><p>如果是在实际应用来看的话，可见与不可见，<code>POST</code>请求还是比<code>GET</code>请求来的安全些，如：密码的传输、敏感信息的传输等等</p><p>#五、实际应用的区别</p><table><thead><tr><th style="text-align:center">方法</th><th style="text-align:center">GET</th><th style="text-align:center">POST</th></tr></thead><tbody><tr><td style="text-align:center">后退按钮/刷新</td><td style="text-align:center">无害</td><td style="text-align:center">数据会被重新提交（浏览器应该告知用户数据会被重新提交）</td></tr><tr><td style="text-align:center">书签</td><td style="text-align:center">可收藏为书签</td><td style="text-align:center">不可收藏为书签</td></tr><tr><td style="text-align:center">缓存</td><td style="text-align:center">能被缓存</td><td style="text-align:center">不能缓存</td></tr><tr><td style="text-align:center">编码类型</td><td style="text-align:center">application/x-www-form-urlencoded</td><td style="text-align:center">application/x-www-form-urlencoded 或 multipart/form-data。为二进制数据使用多重编码。</td></tr><tr><td style="text-align:center">历史</td><td style="text-align:center">参数保留在浏览器历史中</td><td style="text-align:center">参数不会保存在浏览器历史中</td></tr><tr><td style="text-align:center">对数据类型的限制</td><td style="text-align:center">只允许 ASCII 字符</td><td style="text-align:center">没有限制。也允许二进制数据</td></tr><tr><td style="text-align:center">安全性</td><td style="text-align:center">与 POST 相比，GET 的安全性较差，因为所发送的数据是 URL 的一部分。在发送密码或其他敏感信息时绝不要使用 GET</td><td style="text-align:center">POST 比 GET 更安全，因为参数不会被保存在浏览器历史或 web 服务器日志中</td></tr><tr><td style="text-align:center">可见性</td><td style="text-align:center">数据在 URL 中对所有人都是可见的</td><td style="text-align:center">数据不会显示在 URL 中</td></tr><tr><td style="text-align:center">对数据长度的限制</td><td style="text-align:center">是由浏览器和服务端来进行约束的</td></tr></tbody></table>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;blockquote&gt;
+&lt;p&gt;参考链接：&lt;br&gt;&lt;a href=&quot;https://sunshinevvv.coding.me/blog/2017/02/09/HttpGETv.s.POST/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;HTTP协议中GET和
+      
+    
+    </summary>
+    
+    
+      <category term="HTTP" scheme="https://jaychouzzk.github.io/tags/HTTP/"/>
+    
+  </entry>
   
   <entry>
     <title>mysql的隐式类型转换</title>
