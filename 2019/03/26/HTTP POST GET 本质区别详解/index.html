@@ -89,7 +89,7 @@
 <meta property="og:site_name" content="Jaychouzzk&#39;s blogs">
 <meta property="og:description" content="参考链接：HTTP协议中GET和POST方法的区别HTTP POST GET 本质区别详解  一.原理区别  一般再浏览器中输入网址访问资源都是通过GET方式;在FORM表单中提交数据，可以通过METHOD指定方式进行提交，默认为GET请求提交，还可以设置为POST请求进行提交 HTTP定义了与服务器交互的不同方法，最基本的方法有四种:GET,POST,PUT,DELETE 分别对应着查，改，增">
 <meta property="og:locale" content="zh-tw">
-<meta property="og:updated_time" content="2019-03-25T20:59:39.610Z">
+<meta property="og:updated_time" content="2019-03-26T06:56:31.440Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HTTP POST GET 本质区别详解">
 <meta name="twitter:description" content="参考链接：HTTP协议中GET和POST方法的区别HTTP POST GET 本质区别详解  一.原理区别  一般再浏览器中输入网址访问资源都是通过GET方式;在FORM表单中提交数据，可以通过METHOD指定方式进行提交，默认为GET请求提交，还可以设置为POST请求进行提交 HTTP定义了与服务器交互的不同方法，最基本的方法有四种:GET,POST,PUT,DELETE 分别对应着查，改，增">
@@ -312,8 +312,8 @@
 <p>分别对应着<code>查，改，增，删</code>,四个操作，一般<code>GET</code>用于获取查询资源信息，<code>POST</code>一般用于更新资源信息</p>
 <p>根据HTTP规范，<code>GET用于信息的获取，而且应该是安全的、幂等的</code></p>
 <p>1.所谓的安全，是意味着<code>GET</code>操作是用于获取信息而非修改信息。<code>GET</code>请求一般不应该产生副作用，仅仅是资源的获取，不会修改，增加数据，不会影响资源的状态<br>2.幂等：    是一个数学或计算机学概念，常用于抽象代数。<br>        对于单目运算，如果一个运算对于范围内所有的一个数进行多次该运算，返回的结果和进行一次该运算的结果一致，那么该运算被称之为幂等，比如绝对值运算就是一个幂等运算<br>        对于双目运算，则要求当参与运算的两个值是等值的情况下，满足结果与参与运算的两个值相等，则该运算称之为运算幂等，如两个相等的数取最大值，该运算则为幂等运算</p>
-<pre><code>但在实际应用中，以上2条规定并没有这么严格。引用别人文章的例子：比如，新闻站点的头版不断更新。虽然第二次请求会返回不同的一批新闻，该操 作仍然被认为是安全的和幂等的，因为它总是返回当前的新闻。从根本上说，如果目标是当用户打开一个链接时，他可以确信从自身的角度来看没有改变资源即可。
-</code></pre><p>根据HTTP规范，<code>POST</code>表示可能修改服务器上的资源请求。继续引用上面的例子：还是新闻以网站为例，读者对新闻发表自己的评论应该通过POST实现，因为在评论提交后站点的资源已经不同了，或者说资源被修改了。</p>
+<p>但在实际应用中，以上2条规定并没有这么严格。引用别人文章的例子：比如，新闻站点的头版不断更新。虽然第二次请求会返回不同的一批新闻，该操 作仍然被认为是安全的和幂等的，因为它总是返回当前的新闻。从根本上说，如果目标是当用户打开一个链接时，他可以确信从自身的角度来看没有改变资源即可。</p>
+<p>根据HTTP规范，<code>POST</code>表示可能修改服务器上的资源请求。继续引用上面的例子：还是新闻以网站为例，读者对新闻发表自己的评论应该通过POST实现，因为在评论提交后站点的资源已经不同了，或者说资源被修改了。</p>
 <p><strong>问题的由来：</strong></p>
 <p>1.很多人贪方便，更新资源时用了GET，因为用POST必须要到FORM（表单），这样会麻烦一点。</p>
 <p>2.对资源的增，删，改，查操作，其实都可以通过GET/POST完成，不需要用到PUT和DELETE。</p>
@@ -437,6 +437,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2019/04/18/记一次攻击钓鱼网站服务器/" rel="prev" title="记一次攻击钓鱼网站服务器">
+                记一次攻击钓鱼网站服务器 <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -512,7 +516,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">文章</span>
                 </a>
               </div>
@@ -525,7 +529,7 @@
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">12</span>
+                  <span class="site-state-item-count">15</span>
                   <span class="site-state-item-name">標籤</span>
                 
               </div>
