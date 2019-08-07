@@ -232,6 +232,146 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://jaychouzzk.github.io/2019/08/08/暗网监控搭建/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jaychouzzk">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jaychouzzk's blogs">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/08/08/暗网监控搭建/" itemprop="url">记一次暗网监控搭建</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">發表於</span>
+              
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2019-08-08T00:00:00+08:00">
+                2019-08-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>环境：Ubuntu 18.04</p>
+<p>原文链接：<a href="https://github.com/aoii103/DarkNet_ChineseTrading" target="_blank" rel="noopener">https://github.com/aoii103/DarkNet_ChineseTrading</a></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apt <span class="keyword">install</span> python3-pip</span><br><span class="line">pip3 <span class="keyword">install</span> <span class="comment">--upgrade pip</span></span><br></pre></td></tr></table></figure>
+<h1 id="0x01、验证码识别："><a href="#0x01、验证码识别：" class="headerlink" title="0x01、验证码识别："></a>0x01、验证码识别：</h1><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">apt-get install -y tesseract-ocr libtesseract-dev libleptonica-dev</span><br><span class="line">	</span><br><span class="line">pip3 install tesserocr pillow</span><br><span class="line">	</span><br><span class="line">cp media<span class="regexp">/snum.traineddata /u</span>sr<span class="regexp">/share/</span>tesseract-ocr<span class="regexp">/4.00/</span>tessdata<span class="regexp">/</span></span><br></pre></td></tr></table></figure>
+<h1 id="0x02、搭建tor服务器："><a href="#0x02、搭建tor服务器：" class="headerlink" title="0x02、搭建tor服务器："></a>0x02、搭建tor服务器：</h1><h2 id="1-安装tor"><a href="#1-安装tor" class="headerlink" title="1.安装tor"></a>1.安装tor</h2><p>在/etc/apt/sources.list添加如下源：</p>
+<figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">deb</span> http<span class="variable">s:</span>//<span class="keyword">deb</span>.torproject.org/torproject.org bionic main</span><br><span class="line"><span class="keyword">deb</span>-src http<span class="variable">s:</span>//<span class="keyword">deb</span>.torproject.org/torproject.org bionic main</span><br></pre></td></tr></table></figure>
+<h2 id="2-添加gpg密钥，执行如下命令："><a href="#2-添加gpg密钥，执行如下命令：" class="headerlink" title="2.添加gpg密钥，执行如下命令："></a>2.添加gpg密钥，执行如下命令：</h2><figure class="highlight avrasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl https://deb.torproject<span class="meta">.org</span>/torproject<span class="meta">.org</span>/A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89.asc | gpg --import</span><br><span class="line">gpg --export A3C4F0F979CAA22CDBA8F512EE8CBC9E886DDD89 | apt-key <span class="keyword">add</span> -</span><br></pre></td></tr></table></figure>
+<h2 id="3-安装Tor："><a href="#3-安装Tor：" class="headerlink" title="3.安装Tor："></a>3.安装Tor：</h2><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apt update</span><br><span class="line">apt install tor deb<span class="selector-class">.torproject</span><span class="selector-class">.org-keyring</span></span><br></pre></td></tr></table></figure>
+<h2 id="4-配置tor"><a href="#4-配置tor" class="headerlink" title="4.配置tor:"></a>4.配置tor:</h2><figure class="highlight tap"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/tor/torrc</span><br><span class="line">		</span><br><span class="line">SOCKSPort<span class="number"> 9150 </span>					<span class="comment"># socks5代理地址</span></span><br><span class="line">Socks5Proxy 127.0.0.1:1086 		<span class="comment"># 科学上网代理地址(如已翻墙可不填)</span></span><br><span class="line">RunAsDaemon<span class="number"> 1 </span>					<span class="comment"># 开启后台运行</span></span><br><span class="line">ControlPort<span class="number"> 9151 </span>				<span class="comment"># 开启控制端口</span></span><br></pre></td></tr></table></figure>
+<h2 id="5-error："><a href="#5-error：" class="headerlink" title="5.error："></a>5.error：</h2><p>出现此类错误的时候   <code>&#39; error: command &#39;x86_64-linux-gnu-gcc&#39; failed with exit status 1 &#39;</code></p>
+<p>for scrapy with Python 3, you’ll need</p>
+<figure class="highlight q"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-<span class="built_in">get</span> install python3 python-<span class="built_in">dev</span> python3-<span class="built_in">dev</span> \</span><br><span class="line">			 build-essential libssl-<span class="built_in">dev</span> libffi-<span class="built_in">dev</span> \</span><br><span class="line">			 libxml2-<span class="built_in">dev</span> libxslt1-<span class="built_in">dev</span> zlib1g-<span class="built_in">dev</span> \</span><br><span class="line">			 python-pip</span><br></pre></td></tr></table></figure>
+<p>with Python 2, you’ll need</p>
+<figure class="highlight q"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-<span class="built_in">get</span> install python-<span class="built_in">dev</span>  \</span><br><span class="line">			build-essential libssl-<span class="built_in">dev</span> libffi-<span class="built_in">dev</span> \</span><br><span class="line">			libxml2-<span class="built_in">dev</span> libxslt1-<span class="built_in">dev</span> zlib1g-<span class="built_in">dev</span> \</span><br><span class="line">			python-pip</span><br></pre></td></tr></table></figure>
+<h1 id="0x03、数据库安装："><a href="#0x03、数据库安装：" class="headerlink" title="0x03、数据库安装："></a>0x03、数据库安装：</h1><h2 id="Ubuntu-18-04安装docker"><a href="#Ubuntu-18-04安装docker" class="headerlink" title="Ubuntu 18.04安装docker"></a>Ubuntu 18.04安装docker</h2><p><a href="https://www.howtoing.com/how-to-install-and-use-docker-on-ubuntu-18-04" target="_blank" rel="noopener">https://www.howtoing.com/how-to-install-and-use-docker-on-ubuntu-18-04</a></p>
+<figure class="highlight smali"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">apt update</span><br><span class="line">		</span><br><span class="line">apt install apt-transport-https ca-certificates curl software-properties-common</span><br><span class="line">		</span><br><span class="line">curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key<span class="built_in"> add </span>-</span><br><span class="line">		</span><br><span class="line">sudo<span class="built_in"> add-apt-repository </span><span class="string">"deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"</span></span><br><span class="line"></span><br><span class="line">apt-get update</span><br><span class="line">		</span><br><span class="line">apt-cache policy docker-ce</span><br><span class="line">		</span><br><span class="line">apt install docker-ce</span><br></pre></td></tr></table></figure>
+<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><p>mysql：</p>
+<p><a href="https://cloud.tencent.com/developer/article/1439653" target="_blank" rel="noopener">https://cloud.tencent.com/developer/article/1439653</a></p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">docker pull		下载镜像</span><br><span class="line">		</span><br><span class="line">docker images	已下载的镜像</span><br><span class="line">		</span><br><span class="line">docker run <span class="comment">--name mysql1 -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 -d mysql/mysql-server:latest 创建mysql-server容器</span></span><br><span class="line">		</span><br><span class="line">docker exec -it mysql1 mysql -uroot -p	连接容器中的数据库</span><br><span class="line">		</span><br><span class="line"><span class="keyword">use</span> mysql;</span><br><span class="line"><span class="keyword">update</span> <span class="keyword">user</span> <span class="keyword">set</span> host = <span class="string">'%'</span> <span class="keyword">where</span> <span class="keyword">user</span> = <span class="string">"root"</span>;</span><br><span class="line"><span class="keyword">flush</span> <span class="keyword">privileges</span>;</span><br><span class="line">		</span><br><span class="line">docker logs mysql1		查询日志</span><br><span class="line"></span><br><span class="line">docker exec -it mysql1 bash		登录shell</span><br><span class="line">		</span><br><span class="line">docker <span class="keyword">stop</span> mysql1		停止容器</span><br><span class="line">		</span><br><span class="line">docker <span class="keyword">start</span> mysql1</span><br><span class="line"></span><br><span class="line">docker restart mysql1</span><br><span class="line"></span><br><span class="line">docker <span class="keyword">stop</span> mysql1</span><br><span class="line"></span><br><span class="line">docker rm mysql1</span><br></pre></td></tr></table></figure>
+<p>Redis：</p>
+<p><a href="https://blog.csdn.net/myNameIssls/article/details/80520465" target="_blank" rel="noopener">https://blog.csdn.net/myNameIssls/article/details/80520465</a></p>
+<figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">docker run --name redis -d -<span class="selector-tag">p</span> <span class="number">6379</span>:<span class="number">6379</span> redis --requirepass <span class="string">"admin"</span></span><br><span class="line">		</span><br><span class="line">docker container prune		删除所有停止的容器</span><br><span class="line">		</span><br><span class="line">docker rm $(docker ps -<span class="selector-tag">a</span> -q) 或者 docker rm $(docker ps -aq) 	删除所有的容器</span><br></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://jaychouzzk.github.io/2019/04/18/记一次攻击钓鱼网站服务器/">
 
     <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
@@ -263,7 +403,7 @@
               
                 <span class="post-meta-item-text">發表於</span>
               
-              <time title="創建於" itemprop="dateCreated datePublished" datetime="2019-04-18T03:19:41+08:00">
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2019-04-18T00:00:00+08:00">
                 2019-04-18
               </time>
             
@@ -422,7 +562,7 @@
               
                 <span class="post-meta-item-text">發表於</span>
               
-              <time title="創建於" itemprop="dateCreated datePublished" datetime="2019-03-26T03:38:28+08:00">
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2019-03-26T00:00:00+08:00">
                 2019-03-26
               </time>
             
@@ -636,7 +776,7 @@
               
                 <span class="post-meta-item-text">發表於</span>
               
-              <time title="創建於" itemprop="dateCreated datePublished" datetime="2019-03-24T02:28:55+08:00">
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2019-03-24T00:00:00+08:00">
                 2019-03-24
               </time>
             
@@ -767,7 +907,7 @@
               
                 <span class="post-meta-item-text">發表於</span>
               
-              <time title="創建於" itemprop="dateCreated datePublished" datetime="2019-03-21T15:09:02+08:00">
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2019-03-21T00:00:00+08:00">
                 2019-03-21
               </time>
             
@@ -895,7 +1035,7 @@
               
                 <span class="post-meta-item-text">發表於</span>
               
-              <time title="創建於" itemprop="dateCreated datePublished" datetime="2019-02-24T19:24:14+08:00">
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2019-02-24T00:00:00+08:00">
                 2019-02-24
               </time>
             
@@ -1061,7 +1201,7 @@ save
               
                 <span class="post-meta-item-text">發表於</span>
               
-              <time title="創建於" itemprop="dateCreated datePublished" datetime="2019-01-20T13:14:25+08:00">
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2019-01-20T00:00:00+08:00">
                 2019-01-20
               </time>
             
@@ -1556,7 +1696,7 @@ xforwardedfor.py 添加一个伪造的HTTP头“X-Forwarded-For”来绕过WAF
               
                 <span class="post-meta-item-text">發表於</span>
               
-              <time title="創建於" itemprop="dateCreated datePublished" datetime="2019-01-06T16:20:23+08:00">
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2019-01-06T00:00:00+08:00">
                 2019-01-06
               </time>
             
@@ -2127,7 +2267,7 @@ payload：arg01=a&amp;arg02= onmouseover=alert(1)
               
                 <span class="post-meta-item-text">發表於</span>
               
-              <time title="創建於" itemprop="dateCreated datePublished" datetime="2018-12-30T16:27:02+08:00">
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2018-12-30T00:00:00+08:00">
                 2018-12-30
               </time>
             
@@ -2579,7 +2719,7 @@ insert into user(1,2,3) value(&apos;1&apos;,&apos;2&apos;,&apos;3&apos;);
               
                 <span class="post-meta-item-text">發表於</span>
               
-              <time title="創建於" itemprop="dateCreated datePublished" datetime="2018-12-23T14:58:31+08:00">
+              <time title="創建於" itemprop="dateCreated datePublished" datetime="2018-12-23T00:00:00+08:00">
                 2018-12-23
               </time>
             
@@ -3164,126 +3304,6 @@ $pdo=null;
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://jaychouzzk.github.io/2018/12/16/php简陋实现wordpress安装流程/">
-
-    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Jaychouzzk">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Jaychouzzk's blogs">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/12/16/php简陋实现wordpress安装流程/" itemprop="url">php简陋实现wordpress安装流程</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">發表於</span>
-              
-              <time title="創建於" itemprop="dateCreated datePublished" datetime="2018-12-16T22:33:02+08:00">
-                2018-12-16
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="anzhuang-php"><a href="#anzhuang-php" class="headerlink" title="anzhuang.php"></a>anzhuang.php</h1><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Created by PhpStorm.</span></span><br><span class="line"><span class="comment"> * User: Administrator</span></span><br><span class="line"><span class="comment"> * Date: 2018/12/15</span></span><br><span class="line"><span class="comment"> * Time: 17:20</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line">$step =<span class="number">0</span>;</span><br><span class="line">@$step = $_POST[<span class="string">'step'</span>];</span><br><span class="line">@$language = $_POST[<span class="string">'language'</span>];</span><br><span class="line"><span class="comment">/*@$sqlname= $_POST['sqlname'];</span></span><br><span class="line"><span class="comment">@$username = $_POST['username'];</span></span><br><span class="line"><span class="comment">@$passwd = $_POST['passwd'];</span></span><br><span class="line"><span class="comment">@$sqlhost = $_POST['sqlhost'];</span></span><br><span class="line"><span class="comment">@$tbname = $_POST['tbname'];*/</span></span><br><span class="line">$_POST[<span class="string">'sqlname'</span>] = <span class="string">"wordpress"</span>;</span><br><span class="line">$_POST[<span class="string">'username'</span>] = <span class="string">"root"</span>;</span><br><span class="line">$_POST[<span class="string">'passwd'</span>] = <span class="string">"root"</span>;</span><br><span class="line">$_POST[<span class="string">'sqlhost'</span>] = <span class="string">"localhost"</span>;</span><br><span class="line">$_POST[<span class="string">'tbname'</span>] = <span class="string">"wp_"</span>;</span><br><span class="line">@$uname = $_POST[<span class="string">'uname'</span>];</span><br><span class="line">@$upasswd = $_POST[<span class="string">'upasswd'</span>];</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ($step == <span class="number">0</span>)&#123;</span><br><span class="line">step0();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>($step == <span class="number">1</span>)&#123;</span><br><span class="line">step1();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>($step == <span class="number">2</span> )&#123;</span><br><span class="line">step2();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>($step == <span class="number">3</span> ) &#123;</span><br><span class="line">step3();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>($step == <span class="number">5</span>)&#123;</span><br><span class="line">successful();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>($step == <span class="number">6</span>)&#123;</span><br><span class="line">success();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> ($step == <span class="number">7</span>)&#123;</span><br><span class="line">wordpress();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//开始页面</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">step0</span><span class="params">()</span></span>&#123;</span><br><span class="line">$step1 = <span class="string">&lt;&lt;&lt;EOF</span></span><br><span class="line"><span class="string">&lt;html&gt;</span></span><br><span class="line"><span class="string">&lt;head&gt;</span></span><br><span class="line"><span class="string">&lt;title&gt;&lt;/title&gt;</span></span><br><span class="line"><span class="string">&lt;/head&gt;</span></span><br><span class="line"><span class="string">&lt;style&gt;</span></span><br><span class="line"><span class="string">&lt;/style&gt;</span></span><br><span class="line"><span class="string">&lt;body style="text-align: center;"&gt;</span></span><br><span class="line"><span class="string">&lt;form action="anzhuang.php" method="post"&gt;</span></span><br><span class="line"><span class="string">&lt;h1&gt;WordPress&lt;/h1&gt;</span></span><br><span class="line"><span class="string">&lt;button type="submit" name="step" value="1"&gt;开始安装&lt;/button&gt;  </span></span><br><span class="line"><span class="string">&lt;/form&gt;</span></span><br><span class="line"><span class="string">&lt;/body&gt;</span></span><br><span class="line"><span class="string">&lt;/html&gt;</span></span><br><span class="line"><span class="string">EOF;</span></span><br><span class="line"><span class="keyword">echo</span> $step1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//第一步--&gt;选择安装语言</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">step1</span><span class="params">()</span></span>&#123;</span><br><span class="line">$step1 = <span class="string">&lt;&lt;&lt;EOF</span></span><br><span class="line"><span class="string">&lt;html&gt;</span></span><br><span class="line"><span class="string">&lt;head&gt;</span></span><br><span class="line"><span class="string">&lt;title&gt;&lt;/title&gt;</span></span><br><span class="line"><span class="string">&lt;/head&gt;</span></span><br><span class="line"><span class="string">&lt;style&gt;</span></span><br><span class="line"><span class="string">&lt;/style&gt;</span></span><br><span class="line"><span class="string">&lt;body style="text-align: center;"&gt;</span></span><br><span class="line"><span class="string">&lt;form action="anzhuang.php" method="post"&gt;</span></span><br><span class="line"><span class="string">&lt;h1&gt;请选择安装语言：&lt;/h1&gt;</span></span><br><span class="line"><span class="string">&lt;select name="language"&gt;</span></span><br><span class="line"><span class="string"> &lt;option value="ysyy"&gt;英式英语&lt;/option&gt;</span></span><br><span class="line"><span class="string"> &lt;option value="zhjt"&gt;中文简体&lt;/option&gt;</span></span><br><span class="line"><span class="string"> &lt;option value="msyy"&gt;美式英语&lt;/option&gt;</span></span><br><span class="line"><span class="string"> &lt;option value="zhft"&gt;中文繁体&lt;/option&gt;</span></span><br><span class="line"><span class="string">&lt;/select&gt;</span></span><br><span class="line"><span class="string">&lt;button type="submit" name="step" value="2"&gt;下一步&lt;/button&gt;   </span></span><br><span class="line"><span class="string">&lt;/form&gt;</span></span><br><span class="line"><span class="string">&lt;/body&gt;</span></span><br><span class="line"><span class="string">&lt;/html&gt;</span></span><br><span class="line"><span class="string">EOF;</span></span><br><span class="line"><span class="keyword">echo</span> $step1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//第二步</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">step2</span><span class="params">()</span></span>&#123;</span><br><span class="line">$step1 = <span class="string">&lt;&lt;&lt;EOF</span></span><br><span class="line"><span class="string">&lt;html&gt;</span></span><br><span class="line"><span class="string">&lt;head&gt;</span></span><br><span class="line"><span class="string">&lt;title&gt;&lt;/title&gt;</span></span><br><span class="line"><span class="string">&lt;/head&gt;</span></span><br><span class="line"><span class="string">&lt;style&gt;</span></span><br><span class="line"><span class="string">&lt;/style&gt;</span></span><br><span class="line"><span class="string">&lt;body style="text-align: center;"&gt;</span></span><br><span class="line"><span class="string">&lt;form action="anzhuang.php" method="post"&gt;</span></span><br><span class="line"><span class="string">&lt;p&gt;欢迎使用&lt;/p&gt;</span></span><br><span class="line"><span class="string">	&lt;li&gt;数据库名&lt;/li&gt;</span></span><br><span class="line"><span class="string">	&lt;li&gt;数据库用户名&lt;/li&gt;</span></span><br><span class="line"><span class="string">	&lt;li&gt;数据库密码&lt;/li&gt;</span></span><br><span class="line"><span class="string">	&lt;li&gt;数据库主机&lt;/li&gt;</span></span><br><span class="line"><span class="string">	&lt;li&gt;数据表前缀（table prefix，特别是当您要在一个数据库中安装多个WordPress时）&lt;/li&gt;</span></span><br><span class="line"><span class="string">&lt;p&gt;我们会使用这些信息来创建一个&lt;code&gt;wp-config.php&lt;/code&gt;文件。	&lt;strong&gt;如果自动创建未能成功，不用担心，您要做的只是将数据库信息填入配置文件。您也可以在文本编辑器中打开&lt;code&gt;wp-config-sample.php&lt;/code&gt;，填入您的信息，并将其另存为&lt;code&gt;wp-config.php&lt;/code&gt;。&lt;/strong&gt;</span></span><br><span class="line"><span class="string">	需要更多帮助？&lt;a href="https://codex.wordpress.org/zh-cn:%E7%BC%96%E8%BE%91_wp-config.php"&gt;看这里&lt;/a&gt;。&lt;/p&gt;</span></span><br><span class="line"><span class="string">&lt;p&gt;绝大多数时候，您的网站服务提供商会给您这些信息。如果您没有这些信息，在继续之前您将需要联系他们。如果您准备好了…&lt;/p&gt;</span></span><br><span class="line"><span class="string">&lt;button type="submit" name="step" value="3"&gt;现在就开始！&lt;/button&gt;   </span></span><br><span class="line"><span class="string">&lt;/form&gt;</span></span><br><span class="line"><span class="string">&lt;/body&gt;</span></span><br><span class="line"><span class="string">&lt;/html&gt;</span></span><br><span class="line"><span class="string">EOF;</span></span><br><span class="line"><span class="keyword">echo</span> $step1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//第三步--&gt;填写基本信息，如果与数据库进行比对，出现错误跳转errorsql().</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">step3</span><span class="params">()</span></span>&#123;</span><br><span class="line">$step1 = <span class="string">&lt;&lt;&lt;EOF</span></span><br><span class="line"><span class="string">&lt;html&gt;</span></span><br><span class="line"><span class="string">&lt;head&gt;</span></span><br><span class="line"><span class="string">&lt;title&gt;&lt;/title&gt;</span></span><br><span class="line"><span class="string">&lt;/head&gt;</span></span><br><span class="line"><span class="string">&lt;style&gt;</span></span><br><span class="line"><span class="string">&lt;/style&gt;</span></span><br><span class="line"><span class="string">&lt;body style="text-align: center;"&gt;</span></span><br><span class="line"><span class="string">&lt;form action="jiaoyan.php" method="post"&gt;</span></span><br><span class="line"><span class="string">&lt;p&gt;请在下方填写您的数据库连接信息:&lt;/p&gt;</span></span><br><span class="line"><span class="string">&lt;p&gt;数据库名&lt;input type="text" name="sqlname" value="wordpress"&gt;&lt;/p&gt;</span></span><br><span class="line"><span class="string">&lt;p&gt;用户名&lt;input type="text" name="username" value="root"&gt;&lt;/p&gt;</span></span><br><span class="line"><span class="string">&lt;p&gt;密码&lt;input type="text" name="passwd" value="root"&gt;&lt;/p&gt;</span></span><br><span class="line"><span class="string">&lt;p&gt;数据库主机&lt;input type="text" name="sqlhost" value="localhost"&gt;&lt;/p&gt;</span></span><br><span class="line"><span class="string">&lt;p&gt;表前缀&lt;input type="text" name="tbname" value="wp_"&gt;&lt;/p&gt;</span></span><br><span class="line"><span class="string">&lt;button type="submit" name="submit"&gt;提交&lt;/button&gt;</span></span><br><span class="line"><span class="string">&lt;/form&gt;</span></span><br><span class="line"><span class="string">&lt;/body&gt;</span></span><br><span class="line"><span class="string">&lt;/html&gt;</span></span><br><span class="line"><span class="string">EOF;</span></span><br><span class="line"><span class="keyword">echo</span> $step1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//第五步</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">successful</span><span class="params">()</span></span>&#123;</span><br><span class="line">$step1 = <span class="string">&lt;&lt;&lt;EOF</span></span><br><span class="line"><span class="string">&lt;html&gt;</span></span><br><span class="line"><span class="string">&lt;head&gt;</span></span><br><span class="line"><span class="string">&lt;title&gt;&lt;/title&gt;</span></span><br><span class="line"><span class="string">&lt;/head&gt;</span></span><br><span class="line"><span class="string">&lt;style&gt;</span></span><br><span class="line"><span class="string">&lt;/style&gt;</span></span><br><span class="line"><span class="string">&lt;body style="text-align: center;"&gt;</span></span><br><span class="line"><span class="string">&lt;form action="anzhuang.php" method="post"&gt;</span></span><br><span class="line"><span class="string">&lt;h1&gt;欢迎&lt;/h1&gt;</span></span><br><span class="line"><span class="string">&lt;p&gt;欢迎使用著名的wordpress&lt;/p&gt;</span></span><br><span class="line"><span class="string">&lt;h1&gt;需要信息&lt;/h1&gt;</span></span><br><span class="line"><span class="string">&lt;p&gt;您需要填写一些基本信息&lt;/p&gt;</span></span><br><span class="line"><span class="string">&lt;p&gt;站点标题&lt;input type="text"&gt;&lt;/p&gt;</span></span><br><span class="line"><span class="string">&lt;p&gt;用户名&lt;input type="text" name="uname" value=""&gt;&lt;/p&gt;</span></span><br><span class="line"><span class="string">&lt;p&gt;密码&lt;input type="text" name="upasswd" value=""&gt;&lt;/p&gt;</span></span><br><span class="line"><span class="string">&lt;p&gt;您的电子邮件&lt;input type="text"&gt;&lt;/p&gt;</span></span><br><span class="line"><span class="string">&lt;p&gt;对搜索引擎的可见性&lt;input type="text"&gt;&lt;/p&gt;</span></span><br><span class="line"><span class="string"> &lt;button type="submit" name="step" value="6"&gt;安装WordPress&lt;/button&gt;  </span></span><br><span class="line"><span class="string">&lt;/form&gt;</span></span><br><span class="line"><span class="string">&lt;/body&gt;</span></span><br><span class="line"><span class="string">&lt;/html&gt;</span></span><br><span class="line"><span class="string">EOF;</span></span><br><span class="line"><span class="keyword">echo</span> $step1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//第六步--&gt;设置自己登录所需要的用户名密码</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">success</span><span class="params">()</span></span>&#123;</span><br><span class="line"><span class="keyword">global</span> $uname;</span><br><span class="line"><span class="keyword">global</span> $upasswd;</span><br><span class="line">$step1 = <span class="string">&lt;&lt;&lt;EOF</span></span><br><span class="line"><span class="string">&lt;html&gt;</span></span><br><span class="line"><span class="string">&lt;head&gt;</span></span><br><span class="line"><span class="string">&lt;title&gt;&lt;/title&gt;</span></span><br><span class="line"><span class="string">&lt;/head&gt;</span></span><br><span class="line"><span class="string">&lt;style&gt;</span></span><br><span class="line"><span class="string">&lt;/style&gt;</span></span><br><span class="line"><span class="string">&lt;body style="text-align: center;"&gt;</span></span><br><span class="line"><span class="string">&lt;form action="anzhuang.php" method="post"&gt;</span></span><br><span class="line"><span class="string">&lt;h1&gt;成功&lt;/h1&gt;</span></span><br><span class="line"><span class="string">&lt;p&gt;WordPress安装完成。谢谢！&lt;/p&gt;</span></span><br><span class="line"><span class="string">EOF;</span></span><br><span class="line">$step2 = <span class="string">&lt;&lt;&lt;EOF</span></span><br><span class="line"><span class="string">   </span></span><br><span class="line"><span class="string">&lt;/form&gt;</span></span><br><span class="line"><span class="string">&lt;/body&gt;</span></span><br><span class="line"><span class="string">&lt;/html&gt;</span></span><br><span class="line"><span class="string">EOF;</span></span><br><span class="line"><span class="comment">//&lt;button type="submit" name="step" value="7"&gt;登录&lt;/button&gt;</span></span><br><span class="line"><span class="keyword">echo</span> $step1.<span class="string">'&lt;p&gt;用户名：'</span>.$uname.<span class="string">'&lt;/p&gt;'</span>.<span class="string">'&lt;p&gt;密码：'</span>.$upasswd.<span class="string">'&lt;/p&gt;'</span>.$step2;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//登陆界面</span></span><br><span class="line"><span class="comment">/*function wordpress()&#123;</span></span><br><span class="line"><span class="comment">$step1 = &lt;&lt;&lt;EOF</span></span><br><span class="line"><span class="comment">&lt;html&gt;</span></span><br><span class="line"><span class="comment">&lt;head&gt;</span></span><br><span class="line"><span class="comment">&lt;title&gt;&lt;/title&gt;</span></span><br><span class="line"><span class="comment">&lt;/head&gt;</span></span><br><span class="line"><span class="comment">&lt;style&gt;</span></span><br><span class="line"><span class="comment">&lt;/style&gt;</span></span><br><span class="line"><span class="comment">&lt;body style="text-align: center;"&gt;</span></span><br><span class="line"><span class="comment">&lt;form action="anzhuang.php" method="post"&gt;</span></span><br><span class="line"><span class="comment">&lt;h1&gt;欢迎&lt;/h1&gt;</span></span><br><span class="line"><span class="comment">&lt;p&gt;欢迎使用著名的wordpress&lt;/p&gt;</span></span><br><span class="line"><span class="comment">&lt;p&gt;用户名&lt;input type="text" name="name" value=""&gt;&lt;/p&gt;</span></span><br><span class="line"><span class="comment">&lt;p&gt;密码&lt;input type="text" name="passwd" value=""&gt;&lt;/p&gt;</span></span><br><span class="line"><span class="comment"> &lt;button type="submit" name="step" value=""&gt;登陆&lt;/button&gt;  </span></span><br><span class="line"><span class="comment">&lt;/form&gt;</span></span><br><span class="line"><span class="comment">&lt;/body&gt;</span></span><br><span class="line"><span class="comment">&lt;/html&gt;</span></span><br><span class="line"><span class="comment">EOF;</span></span><br><span class="line"><span class="comment">echo $step1;</span></span><br><span class="line"><span class="comment">&#125;*/</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># jiaoyan.php #</span></span><br><span class="line"></span><br><span class="line">    <span class="meta">&lt;?php</span></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Created by PhpStorm.</span></span><br><span class="line"><span class="comment">     * User: Administrator</span></span><br><span class="line"><span class="comment">     * Date: 2018/12/16</span></span><br><span class="line"><span class="comment">     * Time: 15:45</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    @$step = $_POST[<span class="string">'step'</span>];</span><br><span class="line">    @$_POST[<span class="string">'sqlname'</span>];</span><br><span class="line">    @$_POST[<span class="string">'username'</span>];</span><br><span class="line">    @$_POST[<span class="string">'passwd'</span>];</span><br><span class="line">    @$_POST[<span class="string">'sqlhost'</span>];</span><br><span class="line">    @$_POST[<span class="string">'tbname'</span>];</span><br><span class="line">    <span class="keyword">if</span> (@$_POST[<span class="string">'sqlname'</span>] == <span class="string">"wordpress"</span> &amp;&amp; @$_POST[<span class="string">'username'</span>] == <span class="string">"root"</span> &amp;&amp; @$_POST[<span class="string">'passwd'</span>] == <span class="string">"root"</span> &amp;&amp; @$_POST[<span class="string">'sqlhost'</span>] == <span class="string">"localhost"</span> &amp;&amp; @$_POST[<span class="string">'tbname'</span>] == <span class="string">"wp_"</span>)&#123;</span><br><span class="line">    errorwpconfig();</span><br><span class="line">    &#125;<span class="keyword">elseif</span>(@$_POST[<span class="string">'sqlname'</span>] != <span class="string">"wordpress"</span> || @$_POST[<span class="string">'username'</span>] != <span class="string">"root"</span> || @$_POST[<span class="string">'passwd'</span>] != <span class="string">"root"</span> || @$_POST[<span class="string">'sqlhost'</span>] != <span class="string">"localhost"</span> || @$_POST[<span class="string">'tbname'</span>] != <span class="string">"wp_"</span>)&#123;</span><br><span class="line">    errorsql();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//第四步</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">errorwpconfig</span><span class="params">()</span></span>&#123;</span><br><span class="line">    $step1 = <span class="string">&lt;&lt;&lt;EOF</span></span><br><span class="line"><span class="string">    &lt;html&gt;</span></span><br><span class="line"><span class="string">    &lt;head&gt;</span></span><br><span class="line"><span class="string">    &lt;title&gt;&lt;/title&gt;</span></span><br><span class="line"><span class="string">    &lt;/head&gt;</span></span><br><span class="line"><span class="string">    &lt;style&gt;</span></span><br><span class="line"><span class="string">    &lt;/style&gt;</span></span><br><span class="line"><span class="string">    &lt;body style="text-align: center;"&gt;</span></span><br><span class="line"><span class="string">    &lt;form action="anzhuang.php" method="post"&gt;</span></span><br><span class="line"><span class="string">    &lt;p&gt;抱歉，我不能写入wp-config.php文件&lt;/p&gt;</span></span><br><span class="line"><span class="string">    &lt;p&gt;您可以手工创建wp-config.php文件，将下列文字粘贴于其中&lt;/p&gt;</span></span><br><span class="line"><span class="string">    &lt;textarea style="height: 50%;width: 50%;"&gt;sdwaasdwaasdwaasdw&lt;/textarea&gt;</span></span><br><span class="line"><span class="string">    &lt;p&gt;在您做完这些之后，点击现在安装&lt;/p&gt;</span></span><br><span class="line"><span class="string">     &lt;button type="submit" name="step" value="5"&gt;现在安装&lt;/button&gt;  </span></span><br><span class="line"><span class="string">    &lt;/form&gt;</span></span><br><span class="line"><span class="string">    &lt;/body&gt;</span></span><br><span class="line"><span class="string">    &lt;/html&gt;</span></span><br><span class="line"><span class="string">    EOF;</span></span><br><span class="line"><span class="string">    echo <span class="subst">$step1</span>;</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">    //数据库信息错误</span></span><br><span class="line"><span class="string">    function errorsql()&#123;</span></span><br><span class="line"><span class="string">    <span class="subst">$step1</span> = &lt;&lt;&lt;EOF</span></span><br><span class="line"><span class="string">    &lt;html&gt;</span></span><br><span class="line"><span class="string">    &lt;head&gt;</span></span><br><span class="line"><span class="string">    &lt;title&gt;&lt;/title&gt;</span></span><br><span class="line"><span class="string">    &lt;/head&gt;</span></span><br><span class="line"><span class="string">    &lt;style&gt;</span></span><br><span class="line"><span class="string">    &lt;/style&gt;</span></span><br><span class="line"><span class="string">    &lt;body style="text-align: center;"&gt;</span></span><br><span class="line"><span class="string">    &lt;form action="anzhuang.php" method="post"&gt;</span></span><br><span class="line"><span class="string">    &lt;p&gt;1.xxxxx出错&lt;/p&gt;</span></span><br><span class="line"><span class="string">    &lt;p&gt;2.xxxxx出错&lt;/p&gt;</span></span><br><span class="line"><span class="string">    &lt;p&gt;3.xxxxx出错&lt;/p&gt;</span></span><br><span class="line"><span class="string">     &lt;button type="submit" name="step" value="3"&gt;返回上一步&lt;/button&gt;  </span></span><br><span class="line"><span class="string">    &lt;/form&gt;</span></span><br><span class="line"><span class="string">    &lt;/body&gt;</span></span><br><span class="line"><span class="string">    &lt;/html&gt;</span></span><br><span class="line"><span class="string">    EOF;</span></span><br><span class="line"><span class="string">    echo <span class="subst">$step1</span>;</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">    </span></span><br><span class="line"><span class="string">    ?&gt;</span></span><br></pre></td></tr></table></figure>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -3334,7 +3354,7 @@ $pdo=null;
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">文章</span>
                 </a>
               </div>
@@ -3347,7 +3367,7 @@ $pdo=null;
               
               <div class="site-state-item site-state-tags">
                 
-                  <span class="site-state-item-count">15</span>
+                  <span class="site-state-item-count">18</span>
                   <span class="site-state-item-name">標籤</span>
                 
               </div>
